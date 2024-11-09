@@ -12,7 +12,7 @@ public class ComparatorHeap<T> {
         this.arregloHeap = new ArrayList<>();
         this.comparador = comparator;
     }
-
+// constructor con heapify
 //    public ComparatorHeap(T[] elems, Comparator<T> comparator, int[] handles) {
 //
 //    }
@@ -66,7 +66,7 @@ public class ComparatorHeap<T> {
         T padreElem = tuplaPadre.primero();
         
         // Mientras no sea hoja y padre sea menor al hijo, bajamos al padre
-        while ( indiceHijoIzq < arregloHeap.size() && comparador.compare(padreElem, hijoIzqElem) <= 0 ) {
+        while ( indiceHijoIzq < arregloHeap.size() && comparador.compare(padreElem, hijoIzqElem) < 0 ) {
             
             // Intercambiamos los elementos de tupla padre e hijo dependiendo de cual hijo sea mayor
             if ( indiceHijoDer < arregloHeap.size() && comparador.compare(hijoIzqElem, hijoDerElem) < 0 ) {
