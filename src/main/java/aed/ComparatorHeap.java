@@ -26,7 +26,7 @@ public class ComparatorHeap<T> {
         T hijoElem = tuplaHijo.primero();
         T padreElem = tuplaPadre.primero();
 
-        // Mientras no sea raiz y padre sea menor al hijo lo subimos
+        // Mientras no sea raiz y padre sea menor al hijo, subimos al hijo
         while ( handle != 0 && comparador.compare(padreElem, hijoElem) < 0 ) {
 
             // Intercambiamos los elementos de tupla padre e hijo
@@ -44,7 +44,61 @@ public class ComparatorHeap<T> {
     }
 
     private void siftDown(int handle) {
+        int indiceHijoIzq = hijoIzq(handle);
+        int indiceHijoDer = hijoDer(handle);
 
+        Tupla<T,Integer> tuplaPadre = arregloHeap.get(handle);
+        Tupla<T,Integer> tuplaHijoIzq = null;
+        T hijoIzqElem = null;
+        Tupla<T,Integer> tuplaHijoDer = null;
+        T hijoDerElem = null;
+
+        if ( indiceHijoIzq < arregloHeap.size() ) {
+            tuplaHijoIzq = arregloHeap.get(indiceHijoIzq);
+            hijoIzqElem = tuplaHijoIzq.primero();
+        }
+        
+        if ( indiceHijoDer < arregloHeap.size()) {
+            tuplaHijoDer = arregloHeap.get(indiceHijoDer);
+            hijoDerElem = tuplaHijoDer.primero();
+        }
+        
+        T padreElem = tuplaPadre.primero();
+        
+        // Mientras no sea hoja y padre sea menor al hijo, bajamos al padre
+        while ( indiceHijoIzq < arregloHeap.size() && comparador.compare(padreElem, hijoIzqElem) <= 0 ) {
+            
+            // Intercambiamos los elementos de tupla padre e hijo dependiendo de cual hijo sea mayor
+            if ( indiceHijoDer < arregloHeap.size() && comparador.compare(hijoIzqElem, hijoDerElem) < 0 ) {
+                
+                tuplaPadre.cambiarPrimero(tuplaHijoDer.primero());
+                tuplaHijoDer.cambiarPrimero(padreElem);
+                tuplaPadre = arregloHeap.get(indiceHijoDer);
+                handle = indiceHijoDer;
+            }
+            
+            else {
+
+                tuplaPadre.cambiarPrimero(tuplaHijoIzq.primero());
+                tuplaHijoIzq.cambiarPrimero(padreElem);
+                tuplaPadre = arregloHeap.get(indiceHijoIzq);
+                handle = indiceHijoIzq;
+            }
+            
+            // Actualizamos padres e hijos
+            indiceHijoDer = hijoDer(handle);
+            indiceHijoIzq = hijoIzq(handle);
+            if ( indiceHijoIzq < arregloHeap.size() ) {
+                tuplaHijoIzq = arregloHeap.get(indiceHijoIzq);
+                hijoIzqElem = tuplaHijoIzq.primero();
+            }
+        
+            if ( indiceHijoDer < arregloHeap.size()) {
+                tuplaHijoDer = arregloHeap.get(indiceHijoDer);
+                hijoDerElem = tuplaHijoDer.primero();
+            }
+            padreElem = tuplaPadre.primero();       
+        }
     }
 
     private int padre(int i) {
@@ -70,5 +124,13 @@ public class ComparatorHeap<T> {
         if (arregloHeap.isEmpty()) return null;
 
         return arregloHeap.get(0).primero();
+    }
+
+    public void desencolar() {
+        if ( !arregloHeap.isEmpty() ) {
+            arregloHeap.set(0, arregloHeap.get(arregloHeap.size() - 1));
+            arregloHeap.remove(arregloHeap.size() - 1);
+            siftDown(0);
+        }
     }
 }

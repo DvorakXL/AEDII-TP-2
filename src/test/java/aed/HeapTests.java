@@ -74,4 +74,38 @@ public class HeapTests {
         maximo = heap.chusmear();
         assertEquals(maximo, 10);
     }
+
+    @Test
+    void idesencolar() {
+        Comparator<Integer> comparador = new ComparadorInteger();
+        ComparatorHeap<Integer> heap = new ComparatorHeap<>(comparador);
+
+        Integer maximo = heap.chusmear();
+        assertEquals(maximo, null);
+
+        heap.encolar(8);
+        maximo = heap.chusmear();
+        assertEquals(maximo, 8);
+
+        heap.encolar(5);
+        maximo = heap.chusmear();
+        assertEquals(maximo, 8);
+
+        heap.encolar(10);
+        maximo = heap.chusmear();
+        assertEquals(maximo, 10);
+
+        heap.encolar(6);
+        maximo = heap.chusmear();
+        assertEquals(maximo, 10);
+
+        heap.desencolar();
+        maximo = heap.chusmear();
+        assertEquals(maximo, 8);
+
+        heap.desencolar();
+        maximo = heap.chusmear();
+        assertEquals(maximo, 6);
+
+    }
 }
