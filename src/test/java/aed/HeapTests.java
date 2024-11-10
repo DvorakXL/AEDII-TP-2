@@ -158,4 +158,54 @@ public class HeapTests {
         assertEquals(maximo, 8);
 
     }
+
+    @Test
+    void heapify_lista_vacia() {
+        Integer[] heapRoto = {};
+        Comparator<Integer> comparador = new ComparadorInteger();
+        ComparatorHeap<Integer> heap = new ComparatorHeap<>(heapRoto, comparador);
+
+        Integer maximo = heap.chusmear();
+        assertEquals(maximo, null);
+    }
+
+    @Test
+    void heapify_solo_raiz() {
+        Integer[] heapRoto = {10};
+        Comparator<Integer> comparador = new ComparadorInteger();
+        ComparatorHeap<Integer> heap = new ComparatorHeap<>(heapRoto, comparador);
+
+        Integer maximo = heap.chusmear();
+        assertEquals(maximo, 10);
+    }
+
+    @Test
+    void heapify_varios_elementos() {
+        Integer[] heapRoto = {10, 11, 10, 8, 5, 2};
+        Comparator<Integer> comparador = new ComparadorInteger();
+        ComparatorHeap<Integer> heap = new ComparatorHeap<>(heapRoto, comparador);
+
+        Integer maximo = heap.chusmear();
+        assertEquals(maximo, 11);
+
+        heap.desencolar();
+        maximo = heap.chusmear();
+        assertEquals(maximo, 10);
+
+        heap.desencolar();
+        maximo = heap.chusmear();
+        assertEquals(maximo, 10);
+
+        heap.desencolar();
+        maximo = heap.chusmear();
+        assertEquals(maximo, 8);
+
+        heap.desencolar();
+        maximo = heap.chusmear();
+        assertEquals(maximo, 5);
+
+        heap.desencolar();
+        maximo = heap.chusmear();
+        assertEquals(maximo, 2);
+    }
 }

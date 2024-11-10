@@ -12,10 +12,22 @@ public class ComparatorHeap<T> {
         this.arregloHeap = new ArrayList<>();
         this.comparador = comparator;
     }
-// constructor con heapify
-//    public ComparatorHeap(T[] elems, Comparator<T> comparator, int[] handles) {
-//
-//    }
+
+    // Constructor usando heapify. Complejidad 2*n = O(n)
+    public ComparatorHeap(T[] elems, Comparator<T> comparator) {
+        this.arregloHeap = new ArrayList<>();
+        this.comparador = comparator;
+
+        // O(n)
+        for (int i = 0; i < elems.length; i++) {
+            this.arregloHeap.add(new Tupla<>(elems[i], i));
+        }
+
+        // O(n) por algoritmo de Floyd
+        for (int i = 0; i < arregloHeap.size(); i++) {
+            siftDown(i);
+        }
+    }
 
     private void siftUp(int handle) {
         int indicePadre = padre(handle);
