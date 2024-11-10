@@ -87,9 +87,7 @@ public class ComparatorHeap<T> {
                 tuplaHijoDer.cambiarPrimero(padreElem);
                 tuplaPadre = arregloHeap.get(indiceHijoDer);
                 handle = indiceHijoDer;
-            }
-            
-            else {
+            } else {
 
                 tuplaPadre.cambiarPrimero(tuplaHijoIzq.primero());
                 tuplaHijoIzq.cambiarPrimero(padreElem);
@@ -125,11 +123,12 @@ public class ComparatorHeap<T> {
         return 2 * i + 2;
     }
 
+    // max(O(log |arregloHeap|), O(1)) = O(log |arregloHeap|)
     public void encolar(T elem) {
         int handle = arregloHeap.size();
-        arregloHeap.add(new Tupla<T,Integer>(elem, handle));
+        arregloHeap.add(new Tupla<>(elem, handle)); // O(1) costo amortizado
 
-        siftUp(handle);
+        siftUp(handle); // O(log |arregloHeap|)
     }
 
     public T chusmear() {
@@ -139,10 +138,10 @@ public class ComparatorHeap<T> {
     }
 
     public void desencolar() {
-        if ( !arregloHeap.isEmpty() ) {
-            arregloHeap.set(0, arregloHeap.get(arregloHeap.size() - 1));
-            arregloHeap.remove(arregloHeap.size() - 1);
-            siftDown(0);
-        }
+        if (arregloHeap.isEmpty()) return;
+
+        arregloHeap.set(0, arregloHeap.get(arregloHeap.size() - 1));
+        arregloHeap.remove(arregloHeap.size() - 1);
+        siftDown(0);
     }
 }

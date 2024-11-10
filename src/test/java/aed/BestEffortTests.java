@@ -42,6 +42,22 @@ public class BestEffortTests {
     }
 
     @Test
+    void sacar_primero_mas_redituable(){
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
+
+        assertEquals(7,sis.sacarMasRedituable().id());
+    }
+
+    @Test
+    void sacar_primero_mas_antiguo(){
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
+
+        assertEquals(1,sis.sacarMasAntiguo().id());
+        assertEquals(4,sis.sacarMasAntiguo().id());
+        assertEquals(2,sis.sacarMasAntiguo().id());
+    }
+
+    @Test
     void despachar_con_mas_ganancia_de_a_uno(){
         BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
 
