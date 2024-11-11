@@ -181,11 +181,15 @@ public class HeapTests {
 
     @Test
     void heapify_varios_elementos() {
-        Integer[] heapRoto = {10, 11, 10, 8, 5, 2};
+        Integer[] heapRoto = {10, 11, 10, 8, 5, 2, 11};
         Comparator<Integer> comparador = new ComparadorInteger();
         ComparatorHeap<Integer> heap = new ComparatorHeap<>(heapRoto, comparador);
 
         Integer maximo = heap.chusmear();
+        assertEquals(maximo, 11);
+
+        heap.desencolar();
+        maximo = heap.chusmear();
         assertEquals(maximo, 11);
 
         heap.desencolar();

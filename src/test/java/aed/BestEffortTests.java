@@ -46,6 +46,12 @@ public class BestEffortTests {
         BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
 
         assertEquals(7,sis.sacarMasRedituable().id());
+        assertEquals(5,sis.sacarMasRedituable().id());
+        assertEquals(6,sis.sacarMasRedituable().id());
+        assertEquals(3,sis.sacarMasRedituable().id());
+        assertEquals(4,sis.sacarMasRedituable().id());
+        assertEquals(2,sis.sacarMasRedituable().id());
+        assertEquals(1,sis.sacarMasRedituable().id());
     }
 
     @Test
@@ -55,6 +61,10 @@ public class BestEffortTests {
         assertEquals(1,sis.sacarMasAntiguo().id());
         assertEquals(4,sis.sacarMasAntiguo().id());
         assertEquals(2,sis.sacarMasAntiguo().id());
+        assertEquals(5,sis.sacarMasAntiguo().id());
+        assertEquals(6,sis.sacarMasAntiguo().id());
+        assertEquals(7,sis.sacarMasAntiguo().id());
+        assertEquals(3,sis.sacarMasAntiguo().id());
     }
 
     @Test

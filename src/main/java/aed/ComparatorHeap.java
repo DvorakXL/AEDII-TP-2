@@ -13,18 +13,18 @@ public class ComparatorHeap<T> {
         this.comparador = comparator;
     }
 
-    // Constructor usando heapify. Complejidad 2*n = O(n)
+    // Constructor usando heapify. Complejidad 2*|elems| = O(|elems|)
     public ComparatorHeap(T[] elems, Comparator<T> comparator) {
         this.arregloHeap = new ArrayList<>();
         this.comparador = comparator;
 
-        // O(n)
+        // O(|elems|)
         for (int i = 0; i < elems.length; i++) {
-            this.arregloHeap.add(new Tupla<>(elems[i], i));
+            this.arregloHeap.add(new Tupla<>(elems[i], i)); // Constructor de tupla O(1)
         }
 
-        // O(n) por algoritmo de Floyd
-        for (int i = 0; i < arregloHeap.size(); i++) {
+        // O(|elems|) por algoritmo de Floyd
+        for (int i = arregloHeap.size() - 1; i >= 0; i--) {
             siftDown(i);
         }
     }
@@ -140,8 +140,12 @@ public class ComparatorHeap<T> {
     public void desencolar() {
         if (arregloHeap.isEmpty()) return;
 
-        arregloHeap.set(0, arregloHeap.get(arregloHeap.size() - 1));
-        arregloHeap.remove(arregloHeap.size() - 1);
+        int indiceUltimo = arregloHeap.size() - 1;
+
+        arregloHeap.set(0, arregloHeap.get(indiceUltimo));
+        arregloHeap.remove(indiceUltimo);
+
+        if (arregloHeap.isEmpty()) return;
         siftDown(0);
     }
 }
