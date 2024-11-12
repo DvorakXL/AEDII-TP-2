@@ -10,15 +10,15 @@ public class BestEffort {
     ComparatorHeap<Traslado> trasladosMasRedituables;
     ComparatorHeap<Traslado> trasladosMasAntiguos;
 
-    public BestEffort(int cantCiudades, Traslado[] traslados){
+    public BestEffort(int cantCiudades, Traslado[] traslados) {
         // Implementar
         this.trasladosMasRedituables = new ComparatorHeap<>(traslados, new ComparadorMasRedituable());
-        this.trasladosMasAntiguos = new ComparatorHeap<>(traslados, new ComparadorMasAntiguo());
+        this.trasladosMasAntiguos = new ComparatorHeap<>(trasladosMasRedituables, new ComparadorMasAntiguo());
     }
 
     public Traslado sacarMasRedituable() {
-        Traslado res = this.trasladosMasRedituables.chusmear();
-        this.trasladosMasRedituables.desencolar();
+        Traslado res = trasladosMasRedituables.chusmear();
+        trasladosMasRedituables.desencolar();
 
         return res;
     }

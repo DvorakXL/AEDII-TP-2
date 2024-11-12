@@ -68,6 +68,19 @@ public class BestEffortTests {
     }
 
     @Test
+    void test_blabla(){
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
+
+        assertEquals(1,sis.sacarMasAntiguo().id());
+        assertEquals(4,sis.sacarMasAntiguo().id());
+        assertEquals(2,sis.sacarMasAntiguo().id());
+        assertEquals(5,sis.sacarMasAntiguo().id());
+        assertEquals(6,sis.sacarMasAntiguo().id());
+        assertEquals(7,sis.sacarMasAntiguo().id());
+        assertEquals(3,sis.sacarMasAntiguo().id());
+    }
+
+    @Test
     void despachar_con_mas_ganancia_de_a_uno(){
         BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
 
