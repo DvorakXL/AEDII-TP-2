@@ -42,7 +42,7 @@ public class ComparatorHeap<T> {
 
     // Funciones Auxiliares
 
-    private ArrayList<Tupla<T, Integer>> obtenerArregloHeap() {
+    public ArrayList<Tupla<T, Integer>> obtenerArregloHeap() {
         return new ArrayList<>(arregloHeap);
     }
 
@@ -73,29 +73,29 @@ public class ComparatorHeap<T> {
     private void siftDownHandles(int handle, ComparatorHeap<T> heapHandles) {
         while (tieneHijoIzq(handle)) {
 
-            // Inicio el hijo menor
-            int hijoMenor = hijoIzq(handle);
-            Tupla<T, Integer> hijoIzq = arregloHeap.get(hijoMenor);
+            // Inicio el hijo mayor
+            int hijoMayor = hijoIzq(handle);
+            Tupla<T, Integer> hijoIzq = arregloHeap.get(hijoMayor);
 
-            // Veo si el de la derecha es mas chico
-            if (tieneHijoDer(handle) && comparador.compare(arregloHeap.get(hijoDer(handle)).primero(), hijoIzq.primero()) < 0) {
-                hijoMenor = hijoDer(handle);
+            // Veo si el de la derecha es mas grande usando el comparador
+            if (tieneHijoDer(handle) && comparador.compare(arregloHeap.get(hijoDer(handle)).primero(), hijoIzq.primero()) > 0) {
+                hijoMayor = hijoDer(handle);
             }
 
             Tupla<T, Integer> nodoActual = arregloHeap.get(handle);
-            Tupla<T, Integer> tuplaHijoMenor = arregloHeap.get(hijoMenor);
+            Tupla<T, Integer> tuplaHijoMenor = arregloHeap.get(hijoMayor);
 
-            // Si mi hijo menor es menor lo cambio por el nodo actual.
+            // Si mi hijo mayor es mas grande que mi padre lo reemplazo y cambio los handles del padre.
             if (comparador.compare(tuplaHijoMenor.primero(), nodoActual.primero()) > 0) {
                 // Intercambiamos los elementos de tupla padre e hijo
-                arregloHeap.set(hijoMenor, nodoActual);
+                arregloHeap.set(hijoMayor, nodoActual);
                 arregloHeap.set(handle, tuplaHijoMenor);
 
                 // Actualizamos los handles del otro heap
-                heapHandles.intercambiarHandles(hijoMenor, handle);
+                heapHandles.intercambiarHandles(handle, hijoMayor);
 
                 // Actualizamos padres e hijos
-                handle = hijoMenor;
+                handle = hijoMayor;
             } else {
                 break;
             }
@@ -138,58 +138,35 @@ public class ComparatorHeap<T> {
     }
 
     private void siftDown(int handle) {
-        int indiceHijoIzq = hijoIzq(handle);
-        int indiceHijoDer = hijoDer(handle);
+        while (tieneHijoIzq(handle)) {
 
-        Tupla<T,Integer> tuplaPadre = arregloHeap.get(handle);
-        Tupla<T,Integer> tuplaHijoIzq = null;
-        T hijoIzqElem = null;
-        Tupla<T,Integer> tuplaHijoDer = null;
-        T hijoDerElem = null;
+            // Inicio el hijo menor
+            int hijoMenor = hijoIzq(handle);
+            Tupla<T, Integer> hijoIzq = arregloHeap.get(hijoMenor);
 
-        if ( indiceHijoIzq < arregloHeap.size() ) {
-            tuplaHijoIzq = arregloHeap.get(indiceHijoIzq);
-            hijoIzqElem = tuplaHijoIzq.primero();
-        }
-        
-        if ( indiceHijoDer < arregloHeap.size()) {
-            tuplaHijoDer = arregloHeap.get(indiceHijoDer);
-            hijoDerElem = tuplaHijoDer.primero();
-        }
-        
-        T padreElem = tuplaPadre.primero();
-        
-        // Mientras no sea hoja y padre sea menor al hijo, bajamos al padre
-        while ( indiceHijoIzq < arregloHeap.size() && comparador.compare(padreElem, hijoIzqElem) < 0 ) {
-            
-            // Intercambiamos los elementos de tupla padre e hijo dependiendo de cual hijo sea mayor
-            if ( indiceHijoDer < arregloHeap.size() && comparador.compare(hijoIzqElem, hijoDerElem) < 0 ) {
-                
-                tuplaPadre.cambiarPrimero(tuplaHijoDer.primero());
-                tuplaHijoDer.cambiarPrimero(padreElem);
-                tuplaPadre = arregloHeap.get(indiceHijoDer);
-                handle = indiceHijoDer;
+            // Veo si el de la derecha es mas grande usando el comparador
+            if (tieneHijoDer(handle) && comparador.compare(arregloHeap.get(hijoDer(handle)).primero(), hijoIzq.primero()) > 0) {
+                hijoMenor = hijoDer(handle);
+            }
+
+            Tupla<T, Integer> nodoActual = arregloHeap.get(handle);
+            Tupla<T, Integer> tuplaHijoMenor = arregloHeap.get(hijoMenor);
+
+            // Si mi hijo menor es mayor lo cambio por el nodo actual.
+            if (comparador.compare(tuplaHijoMenor.primero(), nodoActual.primero()) > 0) {
+
+                T elemPadre = nodoActual.primero();
+                T elemHijo = tuplaHijoMenor.primero();
+
+                // Intercambiamos los elementos de tupla padre e hijo
+                tuplaHijoMenor.cambiarPrimero(elemPadre);
+                nodoActual.cambiarPrimero(elemHijo);
+
+                // Actualizamos padres e hijos
+                handle = hijoMenor;
             } else {
-
-                tuplaPadre.cambiarPrimero(tuplaHijoIzq.primero());
-                tuplaHijoIzq.cambiarPrimero(padreElem);
-                tuplaPadre = arregloHeap.get(indiceHijoIzq);
-                handle = indiceHijoIzq;
+                break;
             }
-            
-            // Actualizamos padres e hijos
-            indiceHijoDer = hijoDer(handle);
-            indiceHijoIzq = hijoIzq(handle);
-            if ( indiceHijoIzq < arregloHeap.size() ) {
-                tuplaHijoIzq = arregloHeap.get(indiceHijoIzq);
-                hijoIzqElem = tuplaHijoIzq.primero();
-            }
-        
-            if ( indiceHijoDer < arregloHeap.size()) {
-                tuplaHijoDer = arregloHeap.get(indiceHijoDer);
-                hijoDerElem = tuplaHijoDer.primero();
-            }
-            padreElem = tuplaPadre.primero();       
         }
     }
 

@@ -68,16 +68,29 @@ public class BestEffortTests {
     }
 
     @Test
-    void test_blabla(){
+    void handles_redituables(){
         BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
 
-        assertEquals(1,sis.sacarMasAntiguo().id());
-        assertEquals(4,sis.sacarMasAntiguo().id());
-        assertEquals(2,sis.sacarMasAntiguo().id());
-        assertEquals(5,sis.sacarMasAntiguo().id());
-        assertEquals(6,sis.sacarMasAntiguo().id());
-        assertEquals(7,sis.sacarMasAntiguo().id());
-        assertEquals(3,sis.sacarMasAntiguo().id());
+        assertEquals(5,sis.trasladosMasRedituables.obtenerArregloHeap().get(0).segundo());
+        assertEquals(3,sis.trasladosMasRedituables.obtenerArregloHeap().get(1).segundo());
+        assertEquals(4,sis.trasladosMasRedituables.obtenerArregloHeap().get(2).segundo());
+        assertEquals(6,sis.trasladosMasRedituables.obtenerArregloHeap().get(3).segundo());
+        assertEquals(1,sis.trasladosMasRedituables.obtenerArregloHeap().get(4).segundo());
+        assertEquals(2,sis.trasladosMasRedituables.obtenerArregloHeap().get(5).segundo());
+        assertEquals(0,sis.trasladosMasRedituables.obtenerArregloHeap().get(6).segundo());
+    }
+
+    @Test
+    void handles_antiguedad(){
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
+
+        assertEquals(6,sis.trasladosMasAntiguos.obtenerArregloHeap().get(0).segundo());
+        assertEquals(4,sis.trasladosMasAntiguos.obtenerArregloHeap().get(1).segundo());
+        assertEquals(5,sis.trasladosMasAntiguos.obtenerArregloHeap().get(2).segundo());
+        assertEquals(1,sis.trasladosMasAntiguos.obtenerArregloHeap().get(3).segundo());
+        assertEquals(2,sis.trasladosMasAntiguos.obtenerArregloHeap().get(4).segundo());
+        assertEquals(0,sis.trasladosMasAntiguos.obtenerArregloHeap().get(5).segundo());
+        assertEquals(3,sis.trasladosMasAntiguos.obtenerArregloHeap().get(5).segundo());
     }
 
     @Test
