@@ -9,6 +9,11 @@ public class Tupla<U, V> {
         this.t2 = t2;
     }
 
+    public Tupla(Tupla<U, V> copia) {
+        this.t1 = copia.t1;
+        this.t2 = copia.t2;
+    }
+
     public U primero() {
         return t1;
     }
