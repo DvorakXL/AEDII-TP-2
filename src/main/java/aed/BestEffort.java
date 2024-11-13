@@ -9,11 +9,24 @@ public class BestEffort {
     //Completar atributos privados
     ComparatorHeap<Traslado> trasladosMasRedituables;
     ComparatorHeap<Traslado> trasladosMasAntiguos;
+    ComparatorHeap<Tupla<Ciudad, Integer>> ciudades;
+    int maxSuperavit;
+    ArrayList<Integer> maxGanancia;
+    ArrayList<Integer> maxPerdida;
+    int sumaGanancia;
+    int cantTraslados;
+
 
     public BestEffort(int cantCiudades, Traslado[] traslados) {
         // Implementar
         this.trasladosMasRedituables = new ComparatorHeap<>(traslados, new ComparadorMasRedituable());
         this.trasladosMasAntiguos = new ComparatorHeap<>(trasladosMasRedituables, new ComparadorMasAntiguo());
+        this.ciudades = new ComparatorHeap<>();
+        this.maxGanancia = new ArrayList<>();
+        this.maxPerdida = new ArrayList<>();
+        this.maxGanancia.add(0);
+        this.maxGanancia.add(0);
+        this.maxSuperavit = 0;
     }
 
     public Traslado sacarMasRedituable() {
@@ -50,6 +63,8 @@ public class BestEffort {
 
         for (int i = 0; i < capacidad; i++) {
             despachos[i] = trasladosMasRedituables.chusmear().id();
+            sumaGanancia += trasladosMasRedituables.chusmear().ganancia();
+            cantTraslados += 1;
             trasladosMasRedituables.desencolarEnlazado(trasladosMasAntiguos);
         }
 
