@@ -57,8 +57,21 @@ public class BestEffort {
     }
 
     public int[] despacharMasAntiguos(int n){
-        // Implementar
-        return null;
+        // Me fijo que el n no supere la longitud de mi heap
+        int capacidad = n;
+        int longitudHeap = trasladosMasAntiguos.size();
+        if (capacidad > longitudHeap) {
+            capacidad = longitudHeap;
+        }
+
+        int[] despachos = new int[capacidad];
+
+        for (int i = 0; i < capacidad; i++) {
+            despachos[i] = trasladosMasAntiguos.chusmear().id();
+            trasladosMasAntiguos.desencolarEnlazado(trasladosMasRedituables);
+        }
+
+        return despachos;
     }
 
     public int ciudadConMayorSuperavit(){

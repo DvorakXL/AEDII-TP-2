@@ -99,10 +99,16 @@ public class ComparatorHeap<T> {
 
                 // Actualizamos los handles del otro heap
                 heapHandles.intercambiarHandles(handle, hijoMayor, nodoActual.segundo(), tuplaHijoMayor.segundo());
+                handle = hijoMayor;
+            } else {
+                break;
             }
-
-            handle = hijoMayor;
         }
+    }
+
+    private void cambiarHandle(int handle, int nuevoHandle) {
+        Tupla<T, Integer> tuplaHandle = arregloHeap.get(handle);
+        tuplaHandle.cambiarSegundo(nuevoHandle);
     }
 
     private void intercambiarHandles(int handleA, int handleB, int nuevoHandleA, int nuevoHandleB) {
@@ -170,6 +176,25 @@ public class ComparatorHeap<T> {
         }
     }
 
+    private void borrarConHandle(int handle, ComparatorHeap<T> heapHandles) {
+        int indiceUltimo = arregloHeap.size() - 1;
+
+        if (handle == indiceUltimo) {
+            arregloHeap.remove(indiceUltimo);
+            return;
+        }
+
+        Tupla<T, Integer> tuplaUltimo = arregloHeap.get(indiceUltimo);
+
+        // Meti el ultimo elemento en el nodo handle
+        arregloHeap.set(handle, tuplaUltimo);
+        arregloHeap.remove(indiceUltimo);
+        heapHandles.cambiarHandle(tuplaUltimo.segundo(), handle); // Actualizo el handle en el otro heap para que se mantenga el invariante
+
+        siftDownHandles(handle, heapHandles);
+        siftUpHandles(handle, heapHandles);
+    }
+
     private boolean tieneHijoDer(int i) {
         return hijoDer(i) < arregloHeap.size();
     }
@@ -225,14 +250,24 @@ public class ComparatorHeap<T> {
     public void desencolarEnlazado(ComparatorHeap<T> heapEnlazado) {
         if (arregloHeap.isEmpty()) return;
 
-        int indiceUltimo = arregloHeap.size() - 1;
+//        if (arregloHeap.size() == 1) {
+//            arregloHeap.remove(0);
+//            heapEnlazado.desencolar();
+//            return;
+//        }
 
-        arregloHeap.set(0, arregloHeap.get(indiceUltimo));
+        int handleAEliminar = arregloHeap.get(0).segundo();
+        int indiceUltimo = arregloHeap.size() - 1;
+        Tupla<T, Integer> tuplaUltimo = arregloHeap.get(indiceUltimo);
+
+        // Meti el ultimo elemento en el primer nodo
+        arregloHeap.set(0, tuplaUltimo);
         arregloHeap.remove(indiceUltimo);
 
-        if (arregloHeap.isEmpty()) return;
-        siftDownHandles(0, heapEnlazado);
+        heapEnlazado.cambiarHandle(tuplaUltimo.segundo(), 0); // Actualizo el handle en el otro heap para que se mantenga el invariante
 
-        heapEnlazado.desencolar();
+        heapEnlazado.borrarConHandle(handleAEliminar, this);
+
+        siftDownHandles(0, heapEnlazado);
     }
 }
