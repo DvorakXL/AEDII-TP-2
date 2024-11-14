@@ -101,14 +101,11 @@ public class BestEffort {
                 maxGanancia.add(ciudadOrigen);
             } else {
                 Integer indiceCiudadMaximaGanancia = maxGanancia.get(0);
-                if (indiceCiudadMaximaGanancia.equals(ciudadOrigen) && maxGanancia.size() != 1) {
-                    maxGanancia.remove(0);
-                }
 
-                if (gananciasCiudades.get(indiceCiudadMaximaGanancia).equals(gananciasCiudades.get(ciudadOrigen))) {
-                    maxGanancia.add(ciudadOrigen);
-                } else if (gananciasCiudades.get(indiceCiudadMaximaGanancia) < gananciasCiudades.get(ciudadOrigen)) {
+                if (gananciasCiudades.get(indiceCiudadMaximaGanancia) < gananciasCiudades.get(ciudadOrigen) || indiceCiudadMaximaGanancia.equals(ciudadOrigen)) {
                     maxGanancia.clear();
+                    maxGanancia.add(ciudadOrigen);
+                } else if (gananciasCiudades.get(indiceCiudadMaximaGanancia).equals(gananciasCiudades.get(ciudadOrigen))) {
                     maxGanancia.add(ciudadOrigen);
                 }
             }
@@ -117,14 +114,11 @@ public class BestEffort {
                 maxPerdida.add(ciudadDestino);
             } else {
                 Integer indiceCiudadMaximaPerdida = maxPerdida.get(0);
-                if (indiceCiudadMaximaPerdida.equals(ciudadDestino) && maxPerdida.size() != 1) {
-                    maxPerdida.remove(0);
-                }
 
-                if (perdidasCiudades.get(indiceCiudadMaximaPerdida).equals(perdidasCiudades.get(ciudadDestino))) {
-                    maxPerdida.add(ciudadDestino);
-                } else if (perdidasCiudades.get(indiceCiudadMaximaPerdida) < perdidasCiudades.get(ciudadDestino)) {
+                if (perdidasCiudades.get(indiceCiudadMaximaPerdida) < perdidasCiudades.get(ciudadDestino) || indiceCiudadMaximaPerdida.equals(ciudadDestino)) {
                     maxPerdida.clear();
+                    maxPerdida.add(ciudadDestino);
+                } else if (perdidasCiudades.get(indiceCiudadMaximaPerdida).equals(perdidasCiudades.get(ciudadDestino))) {
                     maxPerdida.add(ciudadDestino);
                 }
             }
@@ -173,14 +167,11 @@ public class BestEffort {
                 maxGanancia.add(ciudadOrigen);
             } else {
                 Integer indiceCiudadMaximaGanancia = maxGanancia.get(0);
-                if (indiceCiudadMaximaGanancia.equals(ciudadOrigen) && maxGanancia.size() != 1) {
-                    maxGanancia.remove(0);
-                }
 
-                if (gananciasCiudades.get(indiceCiudadMaximaGanancia).equals(gananciasCiudades.get(ciudadOrigen))) {
-                    maxGanancia.add(ciudadOrigen);
-                } else if (gananciasCiudades.get(indiceCiudadMaximaGanancia) < gananciasCiudades.get(ciudadOrigen)) {
+                if (gananciasCiudades.get(indiceCiudadMaximaGanancia) < gananciasCiudades.get(ciudadOrigen) || indiceCiudadMaximaGanancia.equals(ciudadOrigen)) {
                     maxGanancia.clear();
+                    maxGanancia.add(ciudadOrigen);
+                } else if (gananciasCiudades.get(indiceCiudadMaximaGanancia).equals(gananciasCiudades.get(ciudadOrigen))) {
                     maxGanancia.add(ciudadOrigen);
                 }
             }
@@ -189,14 +180,11 @@ public class BestEffort {
                 maxPerdida.add(ciudadDestino);
             } else {
                 Integer indiceCiudadMaximaPerdida = maxPerdida.get(0);
-                if (indiceCiudadMaximaPerdida.equals(ciudadDestino) && maxPerdida.size() != 1) {
-                    maxPerdida.remove(0);
-                }
 
-                if (perdidasCiudades.get(indiceCiudadMaximaPerdida).equals(perdidasCiudades.get(ciudadDestino))) {
-                    maxPerdida.add(ciudadDestino);
-                } else if (perdidasCiudades.get(indiceCiudadMaximaPerdida) < perdidasCiudades.get(ciudadDestino)) {
+                if (perdidasCiudades.get(indiceCiudadMaximaPerdida) < perdidasCiudades.get(ciudadDestino) || indiceCiudadMaximaPerdida.equals(ciudadDestino)) {
                     maxPerdida.clear();
+                    maxPerdida.add(ciudadDestino);
+                } else if (perdidasCiudades.get(indiceCiudadMaximaPerdida).equals(perdidasCiudades.get(ciudadDestino))) {
                     maxPerdida.add(ciudadDestino);
                 }
             }
