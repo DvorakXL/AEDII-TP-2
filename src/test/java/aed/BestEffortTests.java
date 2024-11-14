@@ -67,6 +67,7 @@ public class BestEffortTests {
         assertEquals(3,sis.sacarMasAntiguo().id());
     }
 
+    // Estos metodos estan de mas. TODO: borrar estos metodos cuando terminemos todo
     @Test
     void handles_redituables(){
         BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
@@ -92,13 +93,113 @@ public class BestEffortTests {
         assertEquals(0,sis.trasladosMasAntiguos.obtenerArregloHeap().get(5).segundo());
         assertEquals(6,sis.trasladosMasAntiguos.obtenerArregloHeap().get(6).segundo());
     }
+    // ------------------------------------------------------------------------------
 
     @Test
-    void despachar_todos_por_mas_ganancia() {
+    void despachar_reditaubles_uno_a_uno() {
         BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
 
-        sis.despacharMasRedituables(10);
+        int[] res = sis.despacharMasRedituables(1);
+        assertEquals(7, res[0]);
+        res = sis.despacharMasRedituables(1);
+        assertEquals(5,res[0]);
+        res = sis.despacharMasRedituables(1);
+        assertEquals(6,res[0]);
+        res = sis.despacharMasRedituables(1);
+        assertEquals(3,res[0]);
+        res = sis.despacharMasRedituables(1);
+        assertEquals(4,res[0]);
+        res = sis.despacharMasRedituables(1);
+        assertEquals(2,res[0]);
+        res = sis.despacharMasRedituables(1);
+        assertEquals(1,res[0]);
     }
+
+    @Test
+    void despachar_antiguos_uno_a_uno() {
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
+
+        int[] res = sis.despacharMasAntiguos(1);
+        assertEquals(1, res[0]);
+        res = sis.despacharMasAntiguos(1);
+        assertEquals(4,res[0]);
+        res = sis.despacharMasAntiguos(1);
+        assertEquals(2,res[0]);
+        res = sis.despacharMasAntiguos(1);
+        assertEquals(5,res[0]);
+        res = sis.despacharMasAntiguos(1);
+        assertEquals(6,res[0]);
+        res = sis.despacharMasAntiguos(1);
+        assertEquals(7,res[0]);
+        res = sis.despacharMasAntiguos(1);
+        assertEquals(3,res[0]);
+    }
+
+    @Test
+    void despachar_reditaubles_de_a_baches() {
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
+
+        int[] res = sis.despacharMasRedituables(5);
+        assertEquals(7, res[0]);
+        assertEquals(5,res[1]);
+        assertEquals(6,res[2]);
+        assertEquals(3,res[3]);
+        assertEquals(4,res[4]);
+        res = sis.despacharMasRedituables(1);
+        assertEquals(2,res[0]);
+        res = sis.despacharMasRedituables(1);
+        assertEquals(1,res[0]);
+    }
+
+    @Test
+    void despachar_antiguos_de_a_baches() {
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
+
+        int[] res = sis.despacharMasAntiguos(5);
+        assertEquals(1, res[0]);
+        assertEquals(4,res[1]);
+        assertEquals(2,res[2]);
+        assertEquals(5,res[3]);
+        assertEquals(6,res[4]);
+        res = sis.despacharMasAntiguos(1);
+        assertEquals(7,res[0]);
+        res = sis.despacharMasAntiguos(1);
+        assertEquals(3,res[0]);
+    }
+
+    @Test
+    void despachar_baches_mixtos() {
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
+
+        int[] res = sis.despacharMasRedituables(5);
+        assertEquals(7, res[0]);
+        assertEquals(5,res[1]);
+        assertEquals(6,res[2]);
+        assertEquals(3,res[3]);
+        assertEquals(4,res[4]);
+
+        res = sis.despacharMasAntiguos(2);
+        assertEquals(1,res[0]);
+        assertEquals(2,res[1]);
+    }
+
+    @Test
+    void despachar_redituables_de_a_baches_mixtos() {
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
+
+        int[] res = sis.despacharMasAntiguos(5);
+        assertEquals(1, res[0]);
+        assertEquals(4,res[1]);
+        assertEquals(2,res[2]);
+        assertEquals(5,res[3]);
+        assertEquals(6,res[4]);
+
+        res = sis.despacharMasRedituables(1);
+        assertEquals(7,res[0]);
+        res = sis.despacharMasRedituables(1);
+        assertEquals(3,res[0]);
+    }
+
 
     @Test
     void despachar_con_mas_ganancia_de_a_uno(){
