@@ -41,22 +41,6 @@ public class BestEffort {
         this.maxPerdida = new ArrayList<>();
     }
 
-    // Estos metodos estan de mas. TODO: borrar estos metodos cuando terminemos todo
-    public Traslado sacarMasRedituable() {
-        Traslado res = trasladosMasRedituables.chusmear();
-        trasladosMasRedituables.desencolar();
-
-        return res;
-    }
-
-    public Traslado sacarMasAntiguo() {
-        Traslado res = this.trasladosMasAntiguos.chusmear();
-        this.trasladosMasAntiguos.desencolar();
-
-        return res;
-    }
-    // -----------------------------------------------------------------------------
-
     public void registrarTraslados(Traslado[] traslados){
         for (Traslado t : traslados) {
             this.trasladosMasRedituables.encolarEnlazado(t, trasladosMasAntiguos);
@@ -78,7 +62,7 @@ public class BestEffort {
         int[] despachos = new int[capacidad];
 
         for (int i = 0; i < capacidad; i++) {
-            Traslado trasladoRedit = trasladosMasRedituables.chusmear();
+            Traslado trasladoRedit = trasladosMasRedituables.tope();
             despachos[i] = trasladoRedit.id();
 
             int ciudadOrigen = trasladoRedit.origen;
@@ -144,7 +128,7 @@ public class BestEffort {
         int[] despachos = new int[capacidad];
 
         for (int i = 0; i < capacidad; i++) {
-            Traslado trasladoAntiguos = trasladosMasAntiguos.chusmear();
+            Traslado trasladoAntiguos = trasladosMasAntiguos.tope();
             despachos[i] = trasladoAntiguos.id();
 
             int ciudadOrigen = trasladoAntiguos.origen;

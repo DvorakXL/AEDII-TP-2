@@ -16,7 +16,7 @@ public class HeapTests {
         Comparator<Integer> comparador = new ComparadorInteger();
         ComparatorHeap<Integer> heap = new ComparatorHeap<>(comparador);
 
-        Integer maximo = heap.chusmear();
+        Integer maximo = heap.tope();
         assertEquals(maximo, null);
     }
 
@@ -25,11 +25,11 @@ public class HeapTests {
         Comparator<Integer> comparador = new ComparadorInteger();
         ComparatorHeap<Integer> heap = new ComparatorHeap<>(comparador);
 
-        Integer maximo = heap.chusmear();
+        Integer maximo = heap.tope();
         assertEquals(maximo, null);
 
         heap.encolar(5);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 5);
     }
 
@@ -38,15 +38,15 @@ public class HeapTests {
         Comparator<Integer> comparador = new ComparadorInteger();
         ComparatorHeap<Integer> heap = new ComparatorHeap<>(comparador);
 
-        Integer maximo = heap.chusmear();
+        Integer maximo = heap.tope();
         assertEquals(maximo, null);
 
         heap.encolar(8);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
 
         heap.encolar(5);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
     }
 
@@ -55,23 +55,23 @@ public class HeapTests {
         Comparator<Integer> comparador = new ComparadorInteger();
         ComparatorHeap<Integer> heap = new ComparatorHeap<>(comparador);
 
-        Integer maximo = heap.chusmear();
+        Integer maximo = heap.tope();
         assertEquals(maximo, null);
 
         heap.encolar(8);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
 
         heap.encolar(5);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
 
         heap.encolar(10);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 10);
 
         heap.encolar(6);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 10);
     }
 
@@ -80,31 +80,31 @@ public class HeapTests {
         Comparator<Integer> comparador = new ComparadorInteger();
         ComparatorHeap<Integer> heap = new ComparatorHeap<>(comparador);
 
-        Integer maximo = heap.chusmear();
+        Integer maximo = heap.tope();
         assertEquals(maximo, null);
 
         heap.encolar(8);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
 
         heap.encolar(5);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
 
         heap.encolar(10);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 10);
 
         heap.encolar(6);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 10);
 
         heap.desencolar();
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
 
         heap.desencolar();
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 6);
 
     }
@@ -114,47 +114,47 @@ public class HeapTests {
         Comparator<Integer> comparador = new ComparadorInteger();
         ComparatorHeap<Integer> heap = new ComparatorHeap<>(comparador);
 
-        Integer maximo = heap.chusmear();
+        Integer maximo = heap.tope();
         assertEquals(maximo, null);
 
         heap.encolar(8);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
 
         heap.encolar(5);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
 
         heap.encolar(10);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 10);
 
         heap.encolar(6);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 10);
 
         heap.desencolar();
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
 
         heap.encolar(7);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
 
         heap.encolar(8);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
 
         heap.encolar(11);
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 11);
 
         heap.desencolar();
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
 
         heap.desencolar();
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
 
     }
@@ -165,7 +165,7 @@ public class HeapTests {
         Comparator<Integer> comparador = new ComparadorInteger();
         ComparatorHeap<Integer> heap = new ComparatorHeap<>(heapRoto, comparador);
 
-        Integer maximo = heap.chusmear();
+        Integer maximo = heap.tope();
         assertEquals(maximo, null);
     }
 
@@ -175,7 +175,7 @@ public class HeapTests {
         Comparator<Integer> comparador = new ComparadorInteger();
         ComparatorHeap<Integer> heap = new ComparatorHeap<>(heapRoto, comparador);
 
-        Integer maximo = heap.chusmear();
+        Integer maximo = heap.tope();
         assertEquals(maximo, 10);
     }
 
@@ -185,31 +185,31 @@ public class HeapTests {
         Comparator<Integer> comparador = new ComparadorInteger();
         ComparatorHeap<Integer> heap = new ComparatorHeap<>(heapRoto, comparador);
 
-        Integer maximo = heap.chusmear();
+        Integer maximo = heap.tope();
         assertEquals(maximo, 11);
 
         heap.desencolar();
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 11);
 
         heap.desencolar();
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 10);
 
         heap.desencolar();
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 10);
 
         heap.desencolar();
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 8);
 
         heap.desencolar();
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 5);
 
         heap.desencolar();
-        maximo = heap.chusmear();
+        maximo = heap.tope();
         assertEquals(maximo, 2);
     }
 }

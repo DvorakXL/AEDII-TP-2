@@ -52,8 +52,7 @@ public class ComparatorHeap<T> {
 
     // Funciones Auxiliares
 
-    // ESTE METODO TIENE QUE SER PRIVADO. TODO
-    public ArrayList<Tupla<T, Integer>> obtenerArregloHeap() {
+    private ArrayList<Tupla<T, Integer>> obtenerArregloHeap() {
         ArrayList<Tupla<T, Integer>> copiaArregloHeap = new ArrayList<>();
 
         for (Tupla<T, Integer> tupla: arregloHeap) {
@@ -62,7 +61,6 @@ public class ComparatorHeap<T> {
 
         return copiaArregloHeap;
     }
-    // ----------------------------------------
 
     private void siftUpHandles(int handle, ComparatorHeap<T> heapHandles) {
         int indicePadre = padre(handle);
@@ -311,13 +309,11 @@ public class ComparatorHeap<T> {
         heapEnlazado.siftUpHandles(handle, this);
     }
 
-    // Cambiar nombre por las dudas ;). TODO
-    public T chusmear() {
+    public T tope() {
         if (arregloHeap.isEmpty()) return null;
 
         return arregloHeap.get(0).primero();
     }
-    // --------------------------------------
 
     public void desencolar() {
         if (arregloHeap.isEmpty()) return;
