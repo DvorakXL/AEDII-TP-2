@@ -13,29 +13,29 @@ public class ComparatorHeap<T> {
         this.comparador = comparator;
     }
 
-    // Constructor usando heapify. Complejidad 2*|elems| = O(|elems|)
-    public ComparatorHeap(T[] elems, Comparator<T> comparator) {
-        this.arregloHeap = new ArrayList<>();
-        this.comparador = comparator;
+    // Constructor usando heapify
+    public ComparatorHeap(T[] elems, Comparator<T> comparator) {    // O(|elems|)
+        this.arregloHeap = new ArrayList<>();                                       // O(1)
+        this.comparador = comparator;                                               // O(1)
 
         // O(|elems|)
-        for (int i = 0; i < elems.length; i++) {
-            this.arregloHeap.add(new Tupla<>(elems[i], i)); // Constructor de tupla O(1)
+        for (int i = 0; i < elems.length; i++) {        // La guarda se evalua |elems| + 1 veces
+            this.arregloHeap.add(new Tupla<>(elems[i], i)); // Constructor de tupla O(1), add es O(1) amortizado
         }
 
-        // O(|elems|) por algoritmo de Floyd
-        for (int i = arregloHeap.size() - 1; i >= 0; i--) {
-            siftDown(i);
+        // O(|elems|)
+        for (int i = arregloHeap.size() - 1; i >= 0; i--) { // La guarda se evalua |elems| + 1 veces
+            siftDown(i);    // O(?) TODO
         }
     }
 
     // Heapify enlazado ordena el heapA con el nuevo criterio de orden y lo asocia con handles al heapB
     public ComparatorHeap(ComparatorHeap<T> heap, Comparator<T> comparator) {
-        this.arregloHeap = heap.obtenerArregloHeap();
+        this.arregloHeap = heap.obtenerArregloHeap();           // O(|heap|)
         this.comparador = comparator;
 
-        // O(|elems|) por algoritmo de Floyd
-        for (int i = arregloHeap.size() - 1; i >= 0; i--) {
+        // O(|heap|)
+        for (int i = arregloHeap.size() - 1; i >= 0; i--) {     // O(|heap|)
             siftDownHandles(i, heap);
         }
     }
@@ -46,17 +46,18 @@ public class ComparatorHeap<T> {
 
         // O(|elems|)
         for (int i = 0; i < elems.length; i++) {
-            this.arregloHeap.add(new Tupla<>(elems[i], i)); // Constructor de tupla O(1)
+            this.arregloHeap.add(new Tupla<>(elems[i], i)); // O(1)
         }
     }
 
     // Funciones Auxiliares
 
-    private ArrayList<Tupla<T, Integer>> obtenerArregloHeap() {
+    private ArrayList<Tupla<T, Integer>> obtenerArregloHeap() { // O(|arregloHeap en el que se invoco|)
         ArrayList<Tupla<T, Integer>> copiaArregloHeap = new ArrayList<>();
 
-        for (Tupla<T, Integer> tupla: arregloHeap) {
-            copiaArregloHeap.add(new Tupla<>(tupla));
+        // O(|arregloHeap| en el que se invoco|)
+        for (Tupla<T, Integer> tupla: arregloHeap) {    // La guarda se evalua longitud del arreglo en el que se invoco + 1 veces
+            copiaArregloHeap.add(new Tupla<>(tupla));   // O(1)
         }
 
         return copiaArregloHeap;
@@ -216,7 +217,7 @@ public class ComparatorHeap<T> {
         }
     }
 
-    private void siftDown(int handle) {
+    private void siftDown(int handle) {     
         while (tieneHijoIzq(handle)) {
 
             // Inicio el hijo menor

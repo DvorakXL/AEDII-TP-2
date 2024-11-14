@@ -6,8 +6,10 @@ import aed.Comparadores.ComparadorMasRedituable;
 
 import java.util.ArrayList;
 
+//Usamos las variables C = conjunto de ciudades, T = conjunto de traslados
+//Aclaracion; si a la derecha de una linea de codigo no hay un comentario acerca de la complejidad, es O(1)
+
 public class BestEffort {
-    //Completar atributos privados
     ComparatorHeap<Traslado> trasladosMasRedituables;
     ComparatorHeap<Traslado> trasladosMasAntiguos;
     ComparatorHeap<Integer> heapSuperavit;
@@ -20,17 +22,18 @@ public class BestEffort {
     int cantTraslados = 0;
 
     public BestEffort(int cantCiudades, Traslado[] traslados) {
-        this.trasladosMasRedituables = new ComparatorHeap<>(traslados, new ComparadorMasRedituable());
-        this.trasladosMasAntiguos = new ComparatorHeap<>(trasladosMasRedituables, new ComparadorMasAntiguo());
+        this.trasladosMasRedituables = new ComparatorHeap<>(traslados, new ComparadorMasRedituable());  // O(|T|)
+        this.trasladosMasAntiguos = new ComparatorHeap<>(trasladosMasRedituables, new ComparadorMasAntiguo());  // O(|T|)
         
-        this.arregloDeHandlesSuperavit = new int[cantCiudades];
+        this.arregloDeHandlesSuperavit = new int[cantCiudades];     // O(1)
         this.gananciasCiudades = new ArrayList<>();
         this.perdidasCiudades = new ArrayList<>();
 
+        // O(|C|)
         Integer[] initSuperavit = new Integer[cantCiudades];
-        for (int i = 0; i < cantCiudades; i++) {
+        for (int i = 0; i < cantCiudades; i++) {        // La guarda se evalua |C| veces
             this.arregloDeHandlesSuperavit[i] = i;
-            this.gananciasCiudades.add(0);
+            this.gananciasCiudades.add(0);      // Metodo de ArrayList .add es O(1) amortizado
             this.perdidasCiudades.add(0);
             initSuperavit[i] = 0;
         }
