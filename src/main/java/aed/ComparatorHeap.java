@@ -256,8 +256,6 @@ public class ComparatorHeap<T> {
         arregloHeap.remove(indiceUltimo);  // O(1)
         heapHandles.cambiarHandle(tuplaUltimo.segundo(), handle); //  O(1) Actualizo el handle en el otro heap para que se mantenga el invariante
 
-        // En este caso si hace SiftDown no va a hacer SiftUp y viceversa (TODO)
-
         // Nos fijamos si hay que hacer sift up o sift down
         int indicePadre = padre(handle);
         Tupla<T,Integer> tuplaPadre = arregloHeap.get(indicePadre);
