@@ -9,50 +9,40 @@ public class ComparatorHeap<T> {
     Comparator<T> comparador;
 
     public ComparatorHeap(Comparator<T> comparator) {
-        this.arregloHeap = new ArrayList<>();
-        this.comparador = comparator;
+        this.arregloHeap = new ArrayList<>(); // O(1)
+        this.comparador = comparator; // O(1)
     }
 
-    // Constructor usando heapify. Complejidad 2*|elems| = O(|elems|)
-    public ComparatorHeap(T[] elems, Comparator<T> comparator) {
-        this.arregloHeap = new ArrayList<>();
-        this.comparador = comparator;
+    // Constructor usando heapify
+    public ComparatorHeap(T[] elems, Comparator<T> comparator) {    // O(|elems|)
+        this.arregloHeap = new ArrayList<>(); // O(1)
+        this.comparador = comparator; // O(1)
 
         // O(|elems|)
-        for (int i = 0; i < elems.length; i++) {
-            this.arregloHeap.add(new Tupla<>(elems[i], i)); // Constructor de tupla O(1)
+        for (int i = 0; i < elems.length; i++) { // La guarda se evalua |elems| + 1 veces
+            this.arregloHeap.add(new Tupla<>(elems[i], i)); // Constructor de tupla O(1), add es O(1) amortizado
         }
 
-        // O(|elems|) por algoritmo de Floyd
-        for (int i = arregloHeap.size() - 1; i >= 0; i--) {
+        // Este bucle es el responsable de hacer el heapify utilizando el algoritmo de Floyd cuya complejidad es O(|elems|)
+        for (int i = arregloHeap.size() - 1; i >= 0; i--) { // La guarda se evalua |elems| + 1 veces
             siftDown(i);
         }
     }
 
     // Heapify enlazado ordena el heapA con el nuevo criterio de orden y lo asocia con handles al heapB
-    public ComparatorHeap(ComparatorHeap<T> heap, Comparator<T> comparator) {
-        this.arregloHeap = heap.obtenerArregloHeap();
+    public ComparatorHeap(ComparatorHeap<T> heap, Comparator<T> comparator) { // O(2*H) = O(H)
+        this.arregloHeap = heap.copiarArregloHeap(); // O(H)
         this.comparador = comparator;
 
-        // O(|elems|) por algoritmo de Floyd
-        for (int i = arregloHeap.size() - 1; i >= 0; i--) {
+        // O(|heap|)
+        for (int i = arregloHeap.size() - 1; i >= 0; i--) { // O(H)
             siftDownHandles(i, heap);
-        }
-    }
-
-    public ComparatorHeap(T[] elems, int[] handles, Comparator<T> comparator) {
-        this.arregloHeap = new ArrayList<>();
-        this.comparador = comparator;
-
-        // O(|elems|)
-        for (int i = 0; i < elems.length; i++) {
-            this.arregloHeap.add(new Tupla<>(elems[i], i)); // Constructor de tupla O(1)
         }
     }
 
     // Funciones Auxiliares
 
-    private ArrayList<Tupla<T, Integer>> obtenerArregloHeap() {
+    private ArrayList<Tupla<T, Integer>> copiarArregloHeap() {
         ArrayList<Tupla<T, Integer>> copiaArregloHeap = new ArrayList<>();
 
         for (Tupla<T, Integer> tupla: arregloHeap) {
@@ -176,18 +166,18 @@ public class ComparatorHeap<T> {
         }
     }
 
-    private void cambiarHandle(int handle, int nuevoHandle) {
-        Tupla<T, Integer> tuplaHandle = arregloHeap.get(handle);
-        tuplaHandle.cambiarSegundo(nuevoHandle);
+    private void cambiarHandle(int handle, int nuevoHandle) { // O(1)
+        Tupla<T, Integer> tuplaHandle = arregloHeap.get(handle); // O(1)
+        tuplaHandle.cambiarSegundo(nuevoHandle);   // O(1)
     }
 
-    private void intercambiarHandles(int handleA, int handleB, int nuevoHandleA, int nuevoHandleB) {
-        Tupla<T, Integer> tuplaHandleA = arregloHeap.get(nuevoHandleB);
-        Tupla<T, Integer> tuplaHandleB = arregloHeap.get(nuevoHandleA);
+    private void intercambiarHandles(int handleA, int handleB, int nuevoHandleA, int nuevoHandleB) { // O(1)
+        Tupla<T, Integer> tuplaHandleA = arregloHeap.get(nuevoHandleB); // O(1)
+        Tupla<T, Integer> tuplaHandleB = arregloHeap.get(nuevoHandleA); // O(1)
 
         // Intercambio los handles
-        tuplaHandleA.cambiarSegundo(handleA);
-        tuplaHandleB.cambiarSegundo(handleB);
+        tuplaHandleA.cambiarSegundo(handleA); // O(1)
+        tuplaHandleB.cambiarSegundo(handleB); // O(1)
     }
 
     private void siftUp(int handle) {
@@ -247,112 +237,116 @@ public class ComparatorHeap<T> {
     }
 
     private void borrarConHandle(int handle, ComparatorHeap<T> heapHandles) {
-        int indiceUltimo = arregloHeap.size() - 1;
+        int indiceUltimo = arregloHeap.size() - 1; // O(1)
 
-        if (handle == indiceUltimo) {
-            arregloHeap.remove(indiceUltimo);
+        if (handle == indiceUltimo) { // O(1)
+            arregloHeap.remove(indiceUltimo); // O(1)
             return;
         }
 
-        Tupla<T, Integer> tuplaUltimo = arregloHeap.get(indiceUltimo);
+        Tupla<T, Integer> tuplaUltimo = arregloHeap.get(indiceUltimo); //O(1)
 
         // Meti el ultimo elemento en el nodo handle
-        arregloHeap.set(handle, tuplaUltimo);
-        arregloHeap.remove(indiceUltimo);
-        heapHandles.cambiarHandle(tuplaUltimo.segundo(), handle); // Actualizo el handle en el otro heap para que se mantenga el invariante
+        arregloHeap.set(handle, tuplaUltimo); // O(1)
+        arregloHeap.remove(indiceUltimo);  // O(1)
+        heapHandles.cambiarHandle(tuplaUltimo.segundo(), handle); //  O(1) Actualizo el handle en el otro heap para que se mantenga el invariante
 
-        siftDownHandles(handle, heapHandles);
+        // En este caso si hace SiftDown no va a hacer SiftUp y viceversa (TODO)
+        siftDownHandles(handle, heapHandles); // O(log|)
         siftUpHandles(handle, heapHandles);
     }
 
-    private boolean tieneHijoDer(int i) {
+    private boolean tieneHijoDer(int i) { // O(1)
         return hijoDer(i) < arregloHeap.size();
     }
 
-    private boolean tieneHijoIzq(int i) {
+    private boolean tieneHijoIzq(int i) { // O(1)
         return hijoIzq(i) < arregloHeap.size();
     }
 
-    private int padre(int i) {
+    private int padre(int i) { // O(1)
         return (i - 1) / 2;
     }
 
-    private int hijoIzq(int i) {
+    private int hijoIzq(int i) { // O(1)
         return 2 * i + 1;
     }
 
-    private int hijoDer(int i) {
+    private int hijoDer(int i) { // O(1)
         return 2 * i + 2;
     }
 
     // Interfaz
 
-    public int size() {
+    public int size() { // O(1)
         return arregloHeap.size();
     }
 
-    // max(O(log |arregloHeap|), O(1)) = O(log |arregloHeap|)
+    // max(O(log H), O(1)) = O(log H)
     public void encolar(T elem) {
         int handle = arregloHeap.size();
         arregloHeap.add(new Tupla<>(elem, handle)); // O(1) costo amortizado
 
-        siftUp(handle); // O(log |arregloHeap|)
+        siftUp(handle); // O(log H)
     }
 
+    // O(2* (log H)) = O(log H)
     public void encolarEnlazado(T elem, ComparatorHeap<T> heapEnlazado) {
         int handle = arregloHeap.size();
 
         arregloHeap.add(new Tupla<>(elem, handle)); // O(1) costo amortizado
         heapEnlazado.arregloHeap.add(new Tupla<>(elem, handle));
 
-        siftUpHandles(handle, heapEnlazado); // O(log |arregloHeap|)
-        heapEnlazado.siftUpHandles(handle, this);
+        siftUpHandles(handle, heapEnlazado); // O(log H)
+        heapEnlazado.siftUpHandles(handle, this); // O(log H) , |this| = H
     }
 
-    public T tope() {
-        if (arregloHeap.isEmpty()) return null;
+    public T tope() { // O(1)
+        if (arregloHeap.isEmpty()) return null; // O(1)
 
-        return arregloHeap.get(0).primero();
+        return arregloHeap.get(0).primero(); // O(1)
     }
 
-    public void desencolar() {
-        if (arregloHeap.isEmpty()) return;
+    public void desencolar() { // O(log H)
+        if (arregloHeap.isEmpty()) return; // O(1)
 
-        int indiceUltimo = arregloHeap.size() - 1;
+        int indiceUltimo = arregloHeap.size() - 1; // O(1)
 
-        arregloHeap.set(0, arregloHeap.get(indiceUltimo));
-        arregloHeap.remove(indiceUltimo);
+        arregloHeap.set(0, arregloHeap.get(indiceUltimo)); // O(1)
+        arregloHeap.remove(indiceUltimo); // O(1)
 
-        if (arregloHeap.isEmpty()) return;
-        siftDown(0);
+        if (arregloHeap.isEmpty()) return; // O(1)
+        siftDown(0); // O(log H)
     }
 
-    public void desencolarEnlazado(ComparatorHeap<T> heapEnlazado) {
-        if (arregloHeap.isEmpty()) return;
+    public void desencolarEnlazado(ComparatorHeap<T> heapEnlazado) { // O(log H)
+        if (arregloHeap.isEmpty()) return;  // O(1)
 
-        int handleAEliminar = arregloHeap.get(0).segundo();
-        int indiceUltimo = arregloHeap.size() - 1;
-        Tupla<T, Integer> tuplaUltimo = arregloHeap.get(indiceUltimo);
+        int handleAEliminar = arregloHeap.get(0).segundo(); // O(1)
+        int indiceUltimo = arregloHeap.size() - 1; // O(1)
+        Tupla<T, Integer> tuplaUltimo = arregloHeap.get(indiceUltimo); // O(1)
 
         // Meti el ultimo elemento en el primer nodo
-        arregloHeap.set(0, tuplaUltimo);
-        arregloHeap.remove(indiceUltimo);
+        arregloHeap.set(0, tuplaUltimo); // O(1)
+        arregloHeap.remove(indiceUltimo); // O(1)
 
-        heapEnlazado.cambiarHandle(tuplaUltimo.segundo(), 0); // Actualizo el handle en el otro heap para que se mantenga el invariante
+        // Actualizo el handle en el otro heap para que se mantenga el invariante
+        heapEnlazado.cambiarHandle(tuplaUltimo.segundo(), 0); //  O(1)
 
-        heapEnlazado.borrarConHandle(handleAEliminar, this);
+        heapEnlazado.borrarConHandle(handleAEliminar, this); // O(log H)
 
-        siftDownHandles(0, heapEnlazado);
+        siftDownHandles(0, heapEnlazado); // O(log H)
     }
 
-    public Tupla<T, Integer> obtenerEnHandle(int handle) {
-        return new Tupla<>(arregloHeap.get(handle));
+    public Tupla<T, Integer> obtenerEnHandle(int handle) { // O(1)
+        return new Tupla<>(arregloHeap.get(handle)); // O(1)
     }
 
-    public void actualizar(int handle, T valor, int[] handles) {
-        Tupla<T, Integer> tuplaACambiar = arregloHeap.get(handle);
-        tuplaACambiar.cambiarPrimero(valor);
+    public void actualizar(int handle, T valor, int[] handles) {  // O(log H)
+        Tupla<T, Integer> tuplaACambiar = arregloHeap.get(handle); // O(1)
+        tuplaACambiar.cambiarPrimero(valor); // O(1)
 
+        //TODO : agregar ifs
         siftDownHandles(handle, handles);
         siftUpHandles(handle, handles);
     }
