@@ -45,8 +45,9 @@ public class ComparatorHeap<T> {
     private ArrayList<Tupla<T, Integer>> copiarArregloHeap() {
         ArrayList<Tupla<T, Integer>> copiaArregloHeap = new ArrayList<>();
 
-        for (Tupla<T, Integer> tupla: arregloHeap) {
-            copiaArregloHeap.add(new Tupla<>(tupla));
+        // O(|arregloHeap| en el que se invoco|)
+        for (Tupla<T, Integer> tupla: arregloHeap) {    // La guarda se evalua longitud del arreglo en el que se invoco + 1 veces
+            copiaArregloHeap.add(new Tupla<>(tupla));   // O(1)
         }
 
         return copiaArregloHeap;
@@ -206,7 +207,7 @@ public class ComparatorHeap<T> {
         }
     }
 
-    private void siftDown(int handle) {
+    private void siftDown(int handle) {     
         while (tieneHijoIzq(handle)) {
 
             // Inicio el hijo menor
