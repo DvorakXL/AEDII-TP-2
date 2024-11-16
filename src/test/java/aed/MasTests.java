@@ -260,7 +260,7 @@ public class MasTests {
     }
 
     @Test
-    void registrar_traslados_despachando_mixto(){
+    void registrar_traslados_despachando_mixto() {
         BestEffort sis = new BestEffort(cantCiudades, listaTrasladosSegundoTercio);
 
         ArrayList<Integer> arreglo1 = new ArrayList<>();
@@ -268,13 +268,18 @@ public class MasTests {
             arreglo1.add(elem);
         }
 
+        assertSetEquals(new ArrayList<>(Arrays.asList(11, 12, 13, 14)), arreglo1);
+
+        assertSetEquals(new ArrayList<>(Arrays.asList(3)), sis.ciudadesConMayorGanancia());
+        assertSetEquals(new ArrayList<>(Arrays.asList(8)), sis.ciudadesConMayorPerdida());
+        assertEquals(3, sis.ciudadConMayorSuperavit());
+
         ArrayList<Integer> arreglo2 = new ArrayList<>();
         for (int elem : sis.despacharMasAntiguos(2)) {
             arreglo2.add(elem);
         }
 
-        assertSetEquals(new ArrayList<>(Arrays.asList(11,12,13,14)), arreglo1);
-        assertSetEquals(new ArrayList<>(Arrays.asList(15,9)), arreglo2);
+        assertSetEquals(new ArrayList<>(Arrays.asList(15, 9)), arreglo2);
 
         sis.registrarTraslados(listaTrasladosTercerTercio);
 
@@ -283,7 +288,7 @@ public class MasTests {
             arreglo3.add(elem);
         }
 
-        assertSetEquals(new ArrayList<>(Arrays.asList(18,21,17,16)), arreglo3);
+        assertSetEquals(new ArrayList<>(Arrays.asList(18, 21, 17, 16)), arreglo3);
 
         ArrayList<Integer> arreglo4 = new ArrayList<>();
         for (int elem : sis.despacharMasRedituables(2)) {

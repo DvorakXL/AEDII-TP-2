@@ -4,6 +4,8 @@ import aed.Comparadores.Comparator;
 
 import java.util.ArrayList;
 
+// Para calcular las complejidades definimos H = |arregloHeap|
+
 public class ComparatorHeap<T> {
     ArrayList<Tupla<T, Integer>> arregloHeap;
     Comparator<T> comparador;
@@ -53,118 +55,118 @@ public class ComparatorHeap<T> {
         return copiaArregloHeap;
     }
 
-    private int compararTuplas(Tupla<T, Integer> tuplaPadre, Tupla<T, Integer> tuplaHijo) {
+    private int compararTuplasPrimerComponente(Tupla<T, Integer> tuplaPadre, Tupla<T, Integer> tuplaHijo) {
         return comparador.compare(tuplaPadre.primero(), tuplaHijo.primero());
     }
 
-    private void siftUpHandles(int handle, ComparatorHeap<T> heapHandles) {
-        int indicePadre = padre(handle);
+    private void siftUpHandles(int handle, ComparatorHeap<T> heapHandles) { // O(log H)
+        int indicePadre = padre(handle); // O(1)
 
-        Tupla<T,Integer> tuplaHijo = arregloHeap.get(handle);
-        Tupla<T,Integer> tuplaPadre = arregloHeap.get(indicePadre);
+        Tupla<T,Integer> tuplaHijo = arregloHeap.get(handle);           // O(1)
+        Tupla<T,Integer> tuplaPadre = arregloHeap.get(indicePadre);     // O(1)
 
         // Mientras no sea raiz y padre sea menor al hijo, subimos al hijo
-        while ( handle != 0 && compararTuplas(tuplaPadre, tuplaHijo) < 0 ) {
+        while ( handle != 0 && compararTuplasPrimerComponente(tuplaPadre, tuplaHijo) < 0 ) {  // O(log H) (Altura del árbol)
 
             // Intercambiamos las tuplas padre e hijo
-            arregloHeap.set(indicePadre, tuplaHijo);
-            arregloHeap.set(handle, tuplaPadre);
+            arregloHeap.set(indicePadre, tuplaHijo);     // O(1)
+            arregloHeap.set(handle, tuplaPadre);         // O(1)
 
             // Actualizamos los handles del otro heap
-            heapHandles.intercambiarHandles(handle, indicePadre, tuplaHijo.segundo(), tuplaPadre.segundo());
+            heapHandles.intercambiarHandles(handle, indicePadre, tuplaHijo.segundo(), tuplaPadre.segundo()); // O(1)
 
             // Actualizamos padres e hijos
-            tuplaHijo = arregloHeap.get(indicePadre);
-            handle = padre(handle);
-
-            indicePadre = padre(indicePadre);
-            tuplaPadre = arregloHeap.get(indicePadre);
+            tuplaHijo = arregloHeap.get(indicePadre);     // O(1)
+            handle = padre(handle);                       // O(1)
+            indicePadre = padre(indicePadre);             // O(1)
+            tuplaPadre = arregloHeap.get(indicePadre);    // O(1)
         }
     }
 
-    private void siftUpHandles(int handle, int[] handles) {
-        int indicePadre = padre(handle);
+    private void siftUpHandles(int handle, int[] handles) { // O(log H)
+        int indicePadre = padre(handle); // O(1)
 
-        Tupla<T,Integer> tuplaHijo = arregloHeap.get(handle);
-        Tupla<T,Integer> tuplaPadre = arregloHeap.get(indicePadre);
+        Tupla<T,Integer> tuplaHijo = arregloHeap.get(handle); // O(1)
+        Tupla<T,Integer> tuplaPadre = arregloHeap.get(indicePadre); // O(1)
 
         // Mientras no sea raiz y padre sea menor al hijo, subimos al hijo
-        while ( handle != 0 && compararTuplas(tuplaPadre, tuplaHijo) < 0 ) {
+        while ( handle != 0 && compararTuplasPrimerComponente(tuplaPadre, tuplaHijo) < 0 ) { // O(log H)
 
             // Intercambiamos las tuplas padre e hijo
-            arregloHeap.set(indicePadre, tuplaHijo);
-            arregloHeap.set(handle, tuplaPadre);
+            arregloHeap.set(indicePadre, tuplaHijo); // O(1)
+            arregloHeap.set(handle, tuplaPadre); // O(1)
 
             // Actualizamos los handles del array
-            handles[indicePadre] = handle;
-            handles[handle] = indicePadre;
+            handles[tuplaHijo.segundo()] = indicePadre; // O(1)
+            handles[tuplaPadre.segundo()] = handle; // O(1)
 
             // Actualizamos padres e hijos
-            tuplaHijo = arregloHeap.get(indicePadre);
-            handle = padre(handle);
-
-            indicePadre = padre(indicePadre);
-            tuplaPadre = arregloHeap.get(indicePadre);
+            tuplaHijo = arregloHeap.get(indicePadre); // O(1)
+            handle = padre(handle); // O(1)
+            indicePadre = padre(indicePadre); // O(1)
+            tuplaPadre = arregloHeap.get(indicePadre); // O(1)
         }
     }
 
-    private void siftDownHandles(int handle, ComparatorHeap<T> heapHandles) {
-        while (tieneHijoIzq(handle)) {
+    private void siftDownHandles(int handle, ComparatorHeap<T> heapHandles) {  // O(log H)
+        while (tieneHijoIzq(handle)) { // O(log H)  (peor caso la altura del árbol)
 
             // Inicio el hijo mayor
-            int hijoMayor = hijoIzq(handle);
-            Tupla<T, Integer> hijoIzq = arregloHeap.get(hijoMayor);
+            int hijoMayor = hijoIzq(handle);                         // O(1)
+            Tupla<T, Integer> hijoIzq = arregloHeap.get(hijoMayor);  // O(1)
+
+            // Notemos que la complejidad de ambos ifs y del else es O(1)
 
             // Veo si el de la derecha es mas grande usando el comparador
-            if (tieneHijoDer(handle) && compararTuplas(arregloHeap.get(hijoDer(handle)), hijoIzq) > 0) {
+            if (tieneHijoDer(handle) && compararTuplasPrimerComponente(arregloHeap.get(hijoDer(handle)), hijoIzq) > 0) {
                 hijoMayor += 1;
-            }
+            }  // O(1)
 
-            Tupla<T, Integer> nodoActual = arregloHeap.get(handle);
-            Tupla<T, Integer> tuplaHijoMayor = arregloHeap.get(hijoMayor);
+            Tupla<T, Integer> nodoActual = arregloHeap.get(handle);                  // O(1)
+            Tupla<T, Integer> tuplaHijoMayor = arregloHeap.get(hijoMayor);           // O(1)
 
             // Si mi hijo mayor es mas grande que mi padre lo reemplazo y cambio los handles del padre.
-            if (compararTuplas(tuplaHijoMayor, nodoActual) > 0) {
+            if (compararTuplasPrimerComponente(tuplaHijoMayor, nodoActual) > 0) {  // O(1)
                 // Intercambiamos las tuplas padre e hijo
-                arregloHeap.set(hijoMayor, nodoActual);
-                arregloHeap.set(handle, tuplaHijoMayor);
+                arregloHeap.set(hijoMayor, nodoActual);                  // O(1)
+                arregloHeap.set(handle, tuplaHijoMayor);                 // O(1)
 
                 // Actualizamos los handles del otro heap
-                heapHandles.intercambiarHandles(handle, hijoMayor, nodoActual.segundo(), tuplaHijoMayor.segundo());
-                handle = hijoMayor;
-            } else {
-                break;
+                heapHandles.intercambiarHandles(handle, hijoMayor, nodoActual.segundo(), tuplaHijoMayor.segundo());  // O(1)
+                handle = hijoMayor;                                                                                  // O(1)
+            } else { // O(1)
+                break;  // O(1)
             }
         }
     }
 
     // inout handles
-    private void siftDownHandles(int handle, int[] handles) {
-        while (tieneHijoIzq(handle)) {
+    private void siftDownHandles(int handle, int[] handles) { // O(log H)
+        while (tieneHijoIzq(handle)) { // O(log H )    ( peor caso alrura del árbol)
 
             // Inicio el hijo mayor
-            int hijoMayor = hijoIzq(handle);
-            Tupla<T, Integer> hijoIzq = arregloHeap.get(hijoMayor);
+            int hijoMayor = hijoIzq(handle);                        // O(1)
+            Tupla<T, Integer> hijoIzq = arregloHeap.get(hijoMayor); // O(1)
 
             // Veo si el de la derecha es mas grande usando el comparador
-            if (tieneHijoDer(handle) && compararTuplas(arregloHeap.get(hijoDer(handle)), hijoIzq) > 0) {
-                hijoMayor += 1;
+            if (tieneHijoDer(handle) && compararTuplasPrimerComponente(arregloHeap.get(hijoDer(handle)), hijoIzq) > 0) { // O(1)
+                hijoMayor += 1; // O(1)
             }
 
-            Tupla<T, Integer> nodoActual = arregloHeap.get(handle);
-            Tupla<T, Integer> tuplaHijoMayor = arregloHeap.get(hijoMayor);
+            Tupla<T, Integer> nodoActual = arregloHeap.get(handle);        // O(1)
+            Tupla<T, Integer> tuplaHijoMayor = arregloHeap.get(hijoMayor); // O(1)
 
             // Si mi hijo mayor es mas grande que mi padre lo reemplazo y cambio los handles del padre.
-            if (compararTuplas(tuplaHijoMayor, nodoActual) > 0) {
+            if (compararTuplasPrimerComponente(tuplaHijoMayor, nodoActual) > 0) { // O(1)
                 // Intercambiamos los elementos de tupla padre e hijo
-                arregloHeap.set(hijoMayor, nodoActual);
-                arregloHeap.set(handle, tuplaHijoMayor);
+                arregloHeap.set(hijoMayor, nodoActual);  // O(1)
+                arregloHeap.set(handle, tuplaHijoMayor); // O(1)
 
                 // Actualizamos los handles del otro heap
-                handles[hijoMayor] = handle;
-                handles[handle] = hijoMayor;
+                handles[tuplaHijoMayor.segundo()] = handle; // O(1)
+                handles[nodoActual.segundo()] = hijoMayor;  // O(1)
 
-                handle = hijoMayor;
+                handle = hijoMayor; // O(1)
             } else {
                 break;
             }
@@ -185,59 +187,61 @@ public class ComparatorHeap<T> {
         tuplaHandleB.cambiarSegundo(nuevoHandleB); // O(1)
     }
 
-    private void siftUp(int handle) {
-        int indicePadre = padre(handle);
+    private void siftUp(int handle) {  // O(log H)
+        int indicePadre = padre(handle);                    // O(1)
 
-        Tupla<T,Integer> tuplaHijo = arregloHeap.get(handle);
-        Tupla<T,Integer> tuplaPadre = arregloHeap.get(indicePadre);
+        Tupla<T,Integer> tuplaHijo = arregloHeap.get(handle);         // O(1)
+        Tupla<T,Integer> tuplaPadre = arregloHeap.get(indicePadre);   // O(1)
 
-        T hijoElem = tuplaHijo.primero();
-        T padreElem = tuplaPadre.primero();
+        T hijoElem = tuplaHijo.primero();    // O(1)
+        T padreElem = tuplaPadre.primero();  // O(1)
 
         // Mientras no sea raiz y padre sea menor al hijo, subimos al hijo
-        while ( handle != 0 && comparador.compare(padreElem, hijoElem) < 0 ) {
+        while ( handle != 0 && comparador.compare(padreElem, hijoElem) < 0 ) { // peor caso O(log H), es decir altura del árbol
 
             // Intercambiamos los elementos de tupla padre e hijo
-            tuplaPadre.cambiarPrimero(tuplaHijo.primero());
-            tuplaHijo.cambiarPrimero(padreElem);
+            tuplaPadre.cambiarPrimero(tuplaHijo.primero());   // O(1)
+            tuplaHijo.cambiarPrimero(padreElem);              // O(1)
 
             // Actualizamos padres e hijos
-            tuplaHijo = arregloHeap.get(indicePadre);
-            hijoElem = tuplaHijo.primero();
+            tuplaHijo = arregloHeap.get(indicePadre);   // O(1)
+            hijoElem = tuplaHijo.primero();             // O(1)
 
-            indicePadre = padre(indicePadre);
-            tuplaPadre = arregloHeap.get(indicePadre);
-            padreElem = tuplaPadre.primero();
+            indicePadre = padre(indicePadre);           // O(1)
+            tuplaPadre = arregloHeap.get(indicePadre);  // O(1)
+            padreElem = tuplaPadre.primero();           // O(1)
         }
     }
 
-    private void siftDown(int handle) {     
-        while (tieneHijoIzq(handle)) {
+    private void siftDown(int handle) { // O(log H)
+        while (tieneHijoIzq(handle)) {  // O(log H)
 
             // Inicio el hijo menor
-            int hijoMenor = hijoIzq(handle);
-            Tupla<T, Integer> hijoIzq = arregloHeap.get(hijoMenor);
+            int hijoMenor = hijoIzq(handle);                             // O(1)
+            Tupla<T, Integer> hijoIzq = arregloHeap.get(hijoMenor);      // O(1)
+
+            // Notemos que la complejidad de ambos ifs es O(1)
 
             // Veo si el de la derecha es mas grande usando el comparador
-            if (tieneHijoDer(handle) && compararTuplas(arregloHeap.get(hijoDer(handle)), hijoIzq) > 0) {
+            if (tieneHijoDer(handle) && compararTuplasPrimerComponente(arregloHeap.get(hijoDer(handle)), hijoIzq) > 0) { // O(1)
                 hijoMenor += 1;
             }
 
-            Tupla<T, Integer> nodoActual = arregloHeap.get(handle);
-            Tupla<T, Integer> tuplaHijoMenor = arregloHeap.get(hijoMenor);
+            Tupla<T, Integer> nodoActual = arregloHeap.get(handle);           // O(1)
+            Tupla<T, Integer> tuplaHijoMenor = arregloHeap.get(hijoMenor);    // O(1)
 
             // Si mi hijo menor es mayor lo cambio por el nodo actual.
-            if (compararTuplas(tuplaHijoMenor, nodoActual) > 0) {
+            if (compararTuplasPrimerComponente(tuplaHijoMenor, nodoActual) > 0) {  // O(1)
 
-                T elemPadre = nodoActual.primero();
-                T elemHijo = tuplaHijoMenor.primero();
+                T elemPadre = nodoActual.primero();       // O(1)
+                T elemHijo = tuplaHijoMenor.primero();    // O(1)
 
                 // Intercambiamos los elementos de tupla padre e hijo
-                tuplaHijoMenor.cambiarPrimero(elemPadre);
-                nodoActual.cambiarPrimero(elemHijo);
+                tuplaHijoMenor.cambiarPrimero(elemPadre); // O(1)
+                nodoActual.cambiarPrimero(elemHijo);      // O(1)
             }
 
-            handle = hijoMenor;
+            handle = hijoMenor;  // O(1)
         }
     }
 
@@ -257,13 +261,14 @@ public class ComparatorHeap<T> {
         heapHandles.cambiarHandle(tuplaUltimo.segundo(), handle); //  O(1) Actualizo el handle en el otro heap para que se mantenga el invariante
 
         // Nos fijamos si hay que hacer sift up o sift down
-        int indicePadre = padre(handle);
-        Tupla<T,Integer> tuplaPadre = arregloHeap.get(indicePadre);
+        int indicePadre = padre(handle); // O(1)
+        Tupla<T,Integer> tuplaPadre = arregloHeap.get(indicePadre); // O(1)
 
-        if (handle != 0 && compararTuplas(tuplaPadre, tuplaUltimo) < 0) {
-            siftUpHandles(handle, heapHandles);
+        //La compejidad de if then else es O(max{complejidad if, complejidad else}) = O(max{O(log H),O(log H)}) = O(log H)
+        if (handle != 0 && compararTuplasPrimerComponente(tuplaPadre, tuplaUltimo) < 0) { // O(1)
+            siftUpHandles(handle, heapHandles); // O(log H)
         } else {
-            siftDownHandles(handle, heapHandles);
+            siftDownHandles(handle, heapHandles); // O(log H)
         }
     }
 
@@ -358,13 +363,14 @@ public class ComparatorHeap<T> {
         tuplaACambiar.cambiarPrimero(valor); // O(1)
 
         // Nos fijamos si hay que hacer sift up o sift down
-        int indicePadre = padre(handle);
-        Tupla<T,Integer> tuplaPadre = arregloHeap.get(indicePadre);
+        int indicePadre = padre(handle);                               // O(1)
+        Tupla<T,Integer> tuplaPadre = arregloHeap.get(indicePadre);    // O(1)
 
-        if (handle != 0 && compararTuplas(tuplaPadre, tuplaACambiar) < 0) {
-            siftUpHandles(handle, handles);
+        //La compejidad de if then else es O(max{complejidad if, complejidad else}) = O(max{O(log H),O(log H)}) = O(log H)
+        if (handle != 0 && compararTuplasPrimerComponente(tuplaPadre, tuplaACambiar) < 0) { // O(1)
+            siftUpHandles(handle, handles);    // O(log H)
         } else {
-            siftDownHandles(handle, handles);
+            siftDownHandles(handle, handles);  // O(log H)
         }
     }
 }

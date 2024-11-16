@@ -7,7 +7,8 @@ import aed.Comparadores.ComparadorMasRedituable;
 import java.util.ArrayList;
 
 //Usamos las variables C = conjunto de ciudades, T = conjunto de traslados
-//Aclaracion; si a la derecha de una linea de codigo no hay un comentario acerca de la complejidad, es O(1)
+//Aclaracion; si a la derecha de una linea de codigo no hay un comentario acerca de la complejidad, es O(1).
+//Aclaracion; si hacemos un llamado a una funcion auxiliar y no ponemos la complejidad es porque esta comentada en la definicion de la funcion.
 
 public class BestEffort {
     ComparatorHeap<Traslado> trasladosMasRedituables;
@@ -85,14 +86,8 @@ public class BestEffort {
             int ciudadDestino = trasladoRedit.destino;            // O(1)
             int gananciaDelDespacho = trasladoRedit.ganancia();   // O(1)
 
-            int handleCiudadOrigen = arregloDeHandlesSuperavit[ciudadOrigen];      // O(1) (accedemos a posiciones)
-            int handleCiudadDestino = arregloDeHandlesSuperavit[ciudadDestino];    // O(1)
-
-            int nuevoSuperavitOrigen = heapSuperavit.obtenerEnHandle(handleCiudadOrigen).primero() + gananciaDelDespacho;    // O(1)
-            int nuevoSuperavitDestino = heapSuperavit.obtenerEnHandle(handleCiudadDestino).primero() - gananciaDelDespacho;  // O(1)
-
-            heapSuperavit.actualizar(handleCiudadOrigen, nuevoSuperavitOrigen, arregloDeHandlesSuperavit);     // O(log |C|) (heapSuperavit se construye sobre las ciudades)
-            heapSuperavit.actualizar(handleCiudadDestino, nuevoSuperavitDestino, arregloDeHandlesSuperavit);   // O(log |C|)
+            actualizarSuperavit(ciudadOrigen, gananciaDelDespacho); // O(log |C|)
+            actualizarSuperavit(ciudadDestino, -gananciaDelDespacho); // O(log |C|)
 
             gananciasCiudades.set(ciudadOrigen, gananciasCiudades.get(ciudadOrigen) + gananciaDelDespacho);  // O(1)
             perdidasCiudades.set(ciudadDestino, perdidasCiudades.get(ciudadDestino) + gananciaDelDespacho);  // O(1)
@@ -111,7 +106,14 @@ public class BestEffort {
 
         return despachos;
     }
-    
+
+    private void actualizarSuperavit(int ciudad, int gananciaDelDespacho) {
+        int handleCiudad = arregloDeHandlesSuperavit[ciudad]; // O(1) (accedemos a posiciones)
+        int nuevoSuperavitOrigen = heapSuperavit.obtenerEnHandle(handleCiudad).primero() + gananciaDelDespacho; // O(1)
+
+        heapSuperavit.actualizar(handleCiudad, nuevoSuperavitOrigen, arregloDeHandlesSuperavit); // O(log |C|) (heapSuperavit se construye sobre las ciudades)
+    }
+
     // Interfaz
 
     public void registrarTraslados(Traslado[] traslados){ //  O(|traslados| log(|T|))
