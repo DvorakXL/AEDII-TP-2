@@ -231,6 +231,169 @@ public class MasTests {
     }
 
     @Test
+    void funcion_despachar_antiguos_y_variables_afectadas() {
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
+
+
+        // Veamos que despacha bien el traslado mas antiguo que es el 18
+        int[] res1 = sis.despacharMasAntiguos(1);
+        assertEquals(18, res1[0]);
+
+        // Max ganancia está vacío, luego agrega ciudad origen
+        assertSetEquals(new ArrayList<>(Arrays.asList(9)), sis.ciudadesConMayorGanancia());
+        // Max perdida está vacío, luego agrega ciudad destino
+        assertSetEquals(new ArrayList<>(Arrays.asList(3)), sis.ciudadesConMayorPerdida());
+        // La variable ganancia pasa a valer 900
+        assertEquals(900,sis.sumaGanancia);
+        // La variable cantTraslados pasa a valer 1
+        assertEquals(1, sis.cantTraslados);
+        // La ciudad con mayor superavit será 9 con 900
+        assertEquals(9, sis.ciudadConMayorSuperavit());
+        // La ganancia promedio será 900
+        assertEquals(900, sis.gananciaPromedioPorTraslado());
+
+
+        //Ahora probemos despachando los siguientes tres mas antiguos
+        ArrayList<Integer> res2 = new ArrayList<>();
+        for (int elem : sis.despacharMasAntiguos(3)){
+            res2.add(elem);
+        }
+        assertSetEquals(new ArrayList<>(Arrays.asList(21,14,15)), res2);
+
+
+        // Ahora  la ciudad con Mayor ganancia van a ser 2 y 3 con 2000
+        assertSetEquals(new ArrayList<>(Arrays.asList(2,3)), sis.ciudadesConMayorGanancia());
+        // La ciudad con mayor perdida seran 7 y 8 con 2000
+        assertSetEquals(new ArrayList<>(Arrays.asList(7,8)), sis.ciudadesConMayorPerdida());
+        // La variable ganancia pasa a valer 5300
+        assertEquals(5300,sis.sumaGanancia);
+        // La variable cantTraslados pasa a valer 4
+        assertEquals(4, sis.cantTraslados);
+        // La ciudad con mayor superavit será 2 con 2000
+        assertEquals(2, sis.ciudadConMayorSuperavit());
+        // La ganancia promedio será 1325
+        assertEquals(1325, sis.gananciaPromedioPorTraslado());
+
+
+        //Ahora despachemos los próximos 5 mas antiguos
+        ArrayList<Integer> res3 = new ArrayList<>();
+        for (int elem : sis.despacharMasAntiguos(5)){
+            res3.add(elem);
+        }
+        assertSetEquals(new ArrayList<>(Arrays.asList(1,5,9,11,2)), res3);
+
+
+        // Ahora  la ciudad con Mayor ganancia va a ser  3 con 4000
+        assertSetEquals(new ArrayList<>(Arrays.asList(3)), sis.ciudadesConMayorGanancia());
+        // La ciudad con mayor perdida seran 5 con 2400
+        assertSetEquals(new ArrayList<>(Arrays.asList(5)), sis.ciudadesConMayorPerdida());
+        // La variable ganancia pasa a valer 8600
+        assertEquals(8600,sis.sumaGanancia);
+        // La variable cantTraslados pasa a valer 9
+        assertEquals(9, sis.cantTraslados);
+        // La ciudad con mayor superavit será 3 con 3100
+        assertEquals(3, sis.ciudadConMayorSuperavit());
+        // La ganancia promedio será 955
+        assertEquals(955, sis.gananciaPromedioPorTraslado());
+
+        // Veamos que despacha bien el siguiente traslado mas redituable que es el 8
+        int[] res4 = sis.despacharMasAntiguos(1);
+        assertEquals(8, res4[0]);
+
+
+        // Ahora  la ciudad con Mayor ganancia va a ser  3 con 4000
+        assertSetEquals(new ArrayList<>(Arrays.asList(3)), sis.ciudadesConMayorGanancia());
+        // La ciudad con mayor perdida sera 8 con 2500
+        assertSetEquals(new ArrayList<>(Arrays.asList(8)), sis.ciudadesConMayorPerdida());
+        // La variable ganancia pasa a valer 9100
+        assertEquals(9100,sis.sumaGanancia);
+        // La variable cantTraslados pasa a valer 10
+        assertEquals(10, sis.cantTraslados);
+        // La ciudad con mayor superavit será 3 con 3100
+        assertEquals(3, sis.ciudadConMayorSuperavit());
+        // La ganancia promedio será 910
+        assertEquals(910, sis.gananciaPromedioPorTraslado());
+
+
+        //Ahora despachemos los próximos 10 mas antiguos
+        ArrayList<Integer> res5 = new ArrayList<>();
+        for (int elem : sis.despacharMasAntiguos(10)){
+            res5.add(elem);
+        }
+        assertSetEquals(new ArrayList<>(Arrays.asList(13,17,4,3,16,7,23,24,10,6)), res5);
+
+
+        // Ahora  la ciudad con Mayor ganancia va a ser  3 con 6000
+        assertSetEquals(new ArrayList<>(Arrays.asList(3)), sis.ciudadesConMayorGanancia());
+        // La ciudad con mayor perdida sera 7 con 3510
+        assertSetEquals(new ArrayList<>(Arrays.asList(7)), sis.ciudadesConMayorPerdida());
+        // La variable ganancia pasa a valer 16611
+        assertEquals(16711,sis.sumaGanancia);
+        // La variable cantTraslados pasa a valer 20
+        assertEquals(20, sis.cantTraslados);
+        // La ciudad con mayor superavit será 3 con 4900
+        assertEquals(3, sis.ciudadConMayorSuperavit());
+        // La ganancia promedio será 835
+        assertEquals(835, sis.gananciaPromedioPorTraslado());
+
+        // Ahora terminemos de despachar todo, pero excediendonos de la cantidad faltante
+        ArrayList<Integer> res6 = new ArrayList<>();
+        for (int elem : sis.despacharMasAntiguos(100)){
+            res6.add(elem);
+        }
+        assertSetEquals(new ArrayList<>(Arrays.asList(12,22,20,25,19)), res6);
+
+
+        // Ahora  la ciudad con Mayor ganancia va a ser  3 con 6050
+        assertSetEquals(new ArrayList<>(Arrays.asList(3)), sis.ciudadesConMayorGanancia());
+        // La ciudad con mayor perdida sera 6 con 5501
+        assertSetEquals(new ArrayList<>(Arrays.asList(6)), sis.ciudadesConMayorPerdida());
+        // La variable ganancia pasa a valer 22461
+        assertEquals(22461,sis.sumaGanancia);
+        // La variable cantTraslados pasa a valer 25
+        assertEquals(25, sis.cantTraslados);
+        // La ciudad con mayor superavit será 3 con 5150
+        assertEquals(3, sis.ciudadConMayorSuperavit());
+        // La ganancia promedio será 898
+        assertEquals(898, sis.gananciaPromedioPorTraslado());
+    }
+
+    @Test
+    void mismas_ganancias_y_perdidas(){
+        BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
+
+        Traslado[] nuevos = new Traslado[] {
+                new Traslado(100, 0, 1, 5000, 2),
+                new Traslado(120, 2, 3, 5000, 3),
+                new Traslado(130, 4, 5, 5000, 6),
+        };
+
+        // Registro traslados
+        sis.registrarTraslados(nuevos);
+
+        // Despacho los 3 mas redituables
+        ArrayList<Integer> res0 = new ArrayList<>();
+        for (int elem : sis.despacharMasRedituables(3)){
+            res0.add(elem);
+        }
+        assertSetEquals(new ArrayList<>(Arrays.asList(100,120,130)), res0);
+
+        // Ahora  las ciudades con mayor ganancia seràn las 0,2 y 4
+        assertEquals(new ArrayList<>(Arrays.asList(0,2,4)), sis.maxGanancia);
+        // La ciudad con mayor perdida serán 1,3 y 5
+        assertSetEquals(new ArrayList<>(Arrays.asList(1,3,5)), sis.ciudadesConMayorPerdida());
+        // La variable ganancia pasa a valer 15000
+        assertEquals(15000,sis.sumaGanancia);
+        // La variable cantTraslados pasa a valer 3
+        assertEquals(3, sis.cantTraslados);
+        // La ciudad con mayor superavit será 0 con 5000
+        assertEquals(0, sis.ciudadConMayorSuperavit());
+        // La ganancia promedio será 3000
+        assertEquals(5000, sis.gananciaPromedioPorTraslado());
+
+    }
+
+    @Test
     void despachar_con_mas_ganancia(){
         BestEffort sis = new BestEffort(this.cantCiudades, this.listaTraslados);
         assertEquals(17, sis.despacharMasRedituables(1)[0]);
@@ -297,6 +460,56 @@ public class MasTests {
 
         assertSetEquals(new ArrayList<>(Arrays.asList(25, 10)), arreglo4);
     }
+
+    @Test
+    void mayor_superavit(){
+        Traslado[] nuevos0 = new Traslado[] {
+                new Traslado(100,0,1,50000,150),
+        };
+        BestEffort sis = new BestEffort(this.cantCiudades, nuevos0);
+
+        // Caso una sola ciudad despachada, debe devolverme ciudad de origen, que es 0
+        sis.despacharMasRedituables(1);
+        assertEquals(0, sis.ciudadConMayorSuperavit());
+
+
+        Traslado[] nuevos1 = new Traslado[] {
+                new Traslado(101,2,3,70000,151),
+                new Traslado(102,4,5,20000,152),
+                new Traslado(103,6,7,55000,153),
+
+        };
+        sis.registrarTraslados(nuevos1);
+
+        // Caso varios despachos, debe devolver aquella ciudad con mayor superavit, es decir, 2
+        sis.despacharMasRedituables(3);
+        assertEquals(2, sis.ciudadConMayorSuperavit());
+
+        Traslado[] nuevos2 = new Traslado[] {
+                new Traslado(104,8,9,70000,154),
+        };
+        sis.registrarTraslados(nuevos2);
+
+        // Caso empate, debe devolver aquella ciudad con menor ID, es decir, 2
+        sis.despacharMasRedituables(1);
+        assertEquals(2, sis.ciudadConMayorSuperavit());
+
+        Traslado[] nuevos3 = new Traslado[] {
+                new Traslado(105,8,2,20000,155),
+        };
+        sis.registrarTraslados(nuevos3);
+
+        // ahora el superavit de 2 disminuyó en 20000 y el de 8 aumento, luego 8 tendra mayor superavit
+        sis.despacharMasRedituables(1);
+        assertEquals(8, sis.ciudadConMayorSuperavit());
+
+        Traslado[] nuevos4 = new Traslado[] {
+                new Traslado(106,0,1,40000,156),
+        };
+        sis.registrarTraslados(nuevos4);
+
+        // Caso empate, debe devolver aquella ciudad con menor ID, es decir, 0
+        sis.despacharMasRedituables(1);
+        assertEquals(0, sis.ciudadConMayorSuperavit());
+    }
 }
-
-

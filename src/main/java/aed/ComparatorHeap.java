@@ -34,9 +34,9 @@ public class ComparatorHeap<T> {
     // Heapify enlazado ordena el heapA con el nuevo criterio de orden y lo asocia con handles al heapB
     public ComparatorHeap(ComparatorHeap<T> heap, Comparator<T> comparator) { // O(2*H) = O(H)
         this.arregloHeap = heap.copiarArregloHeap(); // O(H)
-        this.comparador = comparator;
+        this.comparador = comparator; // O(1)
 
-        // O(|heap|)
+        // Este bucle es el responsable de hacer el heapify utilizando el algoritmo de Floyd cuya complejidad es O(H)
         for (int i = arregloHeap.size() - 1; i >= 0; i--) { // O(H)
             siftDownHandles(i, heap);
         }
@@ -57,6 +57,10 @@ public class ComparatorHeap<T> {
 
     private int compararTuplasPrimerComponente(Tupla<T, Integer> tuplaPadre, Tupla<T, Integer> tuplaHijo) {
         return comparador.compare(tuplaPadre.primero(), tuplaHijo.primero());
+    }
+
+    private int compararTuplasSegundaComponente(Tupla<T, Integer> tuplaPadre, Tupla<T, Integer> tuplaHijo) {
+        return Integer.compare(tuplaPadre.segundo(), tuplaHijo.segundo());
     }
 
     private void siftUpHandles(int handle, ComparatorHeap<T> heapHandles) { // O(log H)
@@ -90,7 +94,8 @@ public class ComparatorHeap<T> {
         Tupla<T,Integer> tuplaPadre = arregloHeap.get(indicePadre); // O(1)
 
         // Mientras no sea raiz y padre sea menor al hijo, subimos al hijo
-        while ( handle != 0 && compararTuplasPrimerComponente(tuplaPadre, tuplaHijo) < 0 ) { // O(log H)
+        while ( handle != 0 && compararTuplasPrimerComponente(tuplaPadre, tuplaHijo) < 0 || (compararTuplasPrimerComponente(tuplaPadre, tuplaHijo) == 0
+                && compararTuplasSegundaComponente(tuplaPadre, tuplaHijo) > 0)) { // O(log H)
 
             // Intercambiamos las tuplas padre e hijo
             arregloHeap.set(indicePadre, tuplaHijo); // O(1)
@@ -126,7 +131,8 @@ public class ComparatorHeap<T> {
             Tupla<T, Integer> tuplaHijoMayor = arregloHeap.get(hijoMayor);           // O(1)
 
             // Si mi hijo mayor es mas grande que mi padre lo reemplazo y cambio los handles del padre.
-            if (compararTuplasPrimerComponente(tuplaHijoMayor, nodoActual) > 0) {  // O(1)
+            if (compararTuplasPrimerComponente(tuplaHijoMayor, nodoActual) > 0 || (compararTuplasPrimerComponente(tuplaHijoMayor, nodoActual) == 0
+                    && compararTuplasSegundaComponente(tuplaHijoMayor, nodoActual) < 0)) {  // O(1)
                 // Intercambiamos las tuplas padre e hijo
                 arregloHeap.set(hijoMayor, nodoActual);                  // O(1)
                 arregloHeap.set(handle, tuplaHijoMayor);                 // O(1)
