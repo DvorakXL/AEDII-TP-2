@@ -47,7 +47,7 @@ public class BestEffort {
     
     // Funciones Auxiliares
 
-    private void actualizarEstadisticasCiudades(ArrayList<Integer> maxGanancia, int ciudadOrigen, ArrayList<Integer> gananciasCiudades) {
+    private void actualizarEstadisticasCiudades(ArrayList<Integer> maxGanancia, int ciudadOrigen, ArrayList<Integer> gananciasCiudades) { // O(1)
         //La compejidad de if then else es O(max{complejidad if, complejidad else}) = O(max{O(1),O(1)}) = O(1)
         if (maxGanancia.isEmpty()) {              // O(1)
             maxGanancia.add(ciudadOrigen);        // O(1)
@@ -65,7 +65,7 @@ public class BestEffort {
         }
     }
 
-    private int[] despacharTrasladosHeap(int n, ComparatorHeap<Traslado> heapA, ComparatorHeap<Traslado> heapB) {
+    private int[] despacharTrasladosHeap(int n, ComparatorHeap<Traslado> heapA, ComparatorHeap<Traslado> heapB) {   // O(n (log(|T|) + log(|C|)))
         // Me fijo que el n no supere la longitud de mi heap
         int capacidad = n;  // O(1)
         int longitudHeap = heapA.size(); // O(1)
@@ -78,12 +78,12 @@ public class BestEffort {
         // Notemos que las complejidades dentro del bucle son : O(1), O(log |C|) y O(log |T|)
         // Por lo tanto, la complejidad del bucle será O(max{ O(1), O(log |C|) , O(log |T|)}) = O(log |T| + log |C|)
         // Finalmente, el bucle se ejecuta n veces, por lo tanto la complejidad de todo el bucle es O(n (log |T| + log |C|))
-        for (int i = 0; i < capacidad; i++) { // la guarda se evalúa n veces
+        for (int i = 0; i < capacidad; i++) { // la guarda se evalúa n + 1 veces
             Traslado trasladoRedit = heapA.tope(); // O(1)
             despachos[i] = trasladoRedit.id();                       // O(1)
 
-            int ciudadOrigen = trasladoRedit.origen;              // O(1) (obtenemos atributos)
-            int ciudadDestino = trasladoRedit.destino;            // O(1)
+            int ciudadOrigen = trasladoRedit.origen();              // O(1) (obtenemos atributos)
+            int ciudadDestino = trasladoRedit.destino();            // O(1)
             int gananciaDelDespacho = trasladoRedit.ganancia();   // O(1)
 
             actualizarSuperavit(ciudadOrigen, gananciaDelDespacho); // O(log |C|)
@@ -92,9 +92,8 @@ public class BestEffort {
             gananciasCiudades.set(ciudadOrigen, gananciasCiudades.get(ciudadOrigen) + gananciaDelDespacho);  // O(1)
             perdidasCiudades.set(ciudadDestino, perdidasCiudades.get(ciudadDestino) + gananciaDelDespacho);  // O(1)
 
-            actualizarEstadisticasCiudades(maxGanancia, ciudadOrigen, gananciasCiudades);
+            actualizarEstadisticasCiudades(maxGanancia, ciudadOrigen, gananciasCiudades); // O(1)
 
-            //La compejidad de if then else es O(max{complejidad if, complejidad else}) = O(max{O(1),O(1)}) = O(1)
             actualizarEstadisticasCiudades(maxPerdida, ciudadDestino, perdidasCiudades);
 
             // Esto es para el promedio por despacho
@@ -107,7 +106,7 @@ public class BestEffort {
         return despachos;
     }
 
-    private void actualizarSuperavit(int ciudad, int gananciaDelDespacho) {
+    private void actualizarSuperavit(int ciudad, int gananciaDelDespacho) {  // O(log (|C|))
         int handleCiudad = arregloDeHandlesSuperavit[ciudad]; // O(1) (accedemos a posiciones)
         int nuevoSuperavitOrigen = heapSuperavit.obtenerEnHandle(handleCiudad).primero() + gananciaDelDespacho; // O(1)
 

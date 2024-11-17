@@ -44,7 +44,7 @@ public class ComparatorHeap<T> {
 
     // Funciones Auxiliares
 
-    private ArrayList<Tupla<T, Integer>> copiarArregloHeap() {
+    private ArrayList<Tupla<T, Integer>> copiarArregloHeap() {  // O(|arregloHeap|)
         ArrayList<Tupla<T, Integer>> copiaArregloHeap = new ArrayList<>();
 
         // O(|arregloHeap| en el que se invoco|)
@@ -55,11 +55,11 @@ public class ComparatorHeap<T> {
         return copiaArregloHeap;
     }
 
-    private int compararTuplasPrimerComponente(Tupla<T, Integer> tuplaPadre, Tupla<T, Integer> tuplaHijo) {
+    private int compararTuplasPrimerComponente(Tupla<T, Integer> tuplaPadre, Tupla<T, Integer> tuplaHijo) { // O(1)
         return comparador.compare(tuplaPadre.primero(), tuplaHijo.primero());
     }
 
-    private int compararTuplasSegundaComponente(Tupla<T, Integer> tuplaPadre, Tupla<T, Integer> tuplaHijo) {
+    private int compararTuplasSegundaComponente(Tupla<T, Integer> tuplaPadre, Tupla<T, Integer> tuplaHijo) { // O(1)
         return Integer.compare(tuplaPadre.segundo(), tuplaHijo.segundo());
     }
 
@@ -251,7 +251,7 @@ public class ComparatorHeap<T> {
         }
     }
 
-    private void borrarConHandle(int handle, ComparatorHeap<T> heapHandles) {
+    private void borrarConHandle(int handle, ComparatorHeap<T> heapHandles) { // O(log H)
         int indiceUltimo = arregloHeap.size() - 1; // O(1)
 
         if (handle == indiceUltimo) { // O(1)
